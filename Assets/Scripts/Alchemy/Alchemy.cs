@@ -44,8 +44,3 @@ public class IngredientList
 {
     public Dictionary<string, Ingredient> list;
 }
-
-public class Ingredient
-{
-    public Dictionary<string, string[]> combinations;
-}

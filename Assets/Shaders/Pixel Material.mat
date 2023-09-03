@@ -29,7 +29,7 @@ Material:
     m_Floats:
     - _Pixel_Height: 9
     - _Pixel_Width: 16
-    - _Resolution: 750
+    - _Resolution: 5000
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &3984048336809559746
