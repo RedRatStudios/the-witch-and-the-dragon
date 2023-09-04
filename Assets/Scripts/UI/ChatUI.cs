@@ -153,8 +153,6 @@ public class ChatUI : MonoBehaviour
 
         OnBurstStart?.Invoke();
     }
-
-
 }
 
 public class ChatUser
