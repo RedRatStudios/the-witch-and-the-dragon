@@ -43,13 +43,7 @@ public class ChatUI : MonoBehaviour
 
     private void Start()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        else
-            Instance = this;
+        Instance = this;
 
         newMessageTimer = 0f;
         burstTimer = 0f;
@@ -63,7 +57,6 @@ public class ChatUI : MonoBehaviour
     {
         UpdateBurstTimer();
         UpdateTimer();
-        CullMessagesOutOfBounds();
     }
 
     private void UpdateTimer()
@@ -94,11 +87,6 @@ public class ChatUI : MonoBehaviour
         burstTimer = 0;
 
         OnBurstEnd?.Invoke();
-    }
-
-    private void CullMessagesOutOfBounds()
-    {
-        // TODO: this
     }
 
     private void SpawnRandomMessage() // TODO: pass type

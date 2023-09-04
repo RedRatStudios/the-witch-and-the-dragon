@@ -15,7 +15,7 @@ public class ChatMessage : MonoBehaviour
         emoteTemplate.SetActive(false);
 
         // PROTOTYPE
-        SetChatterName("DaBulder", 30, 100, 30);
+        SetChatterName("DaBulder", 30, 180, 30);
     }
 
     // <summary>
