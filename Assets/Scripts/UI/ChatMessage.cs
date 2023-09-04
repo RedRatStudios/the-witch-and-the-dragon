@@ -7,12 +7,15 @@ using UnityEngine.UI;
 public class ChatMessage : MonoBehaviour
 {
     [SerializeField] private GameObject emoteTemplate;
-    private TextMeshProUGUI chattername;
+    private TextMeshProUGUI chatterName;
 
     private void Start()
     {
-        chattername = GetComponentInChildren<TextMeshProUGUI>();
+        chatterName = GetComponentInChildren<TextMeshProUGUI>();
         emoteTemplate.SetActive(false);
+
+        // PROTOTYPE
+        SetChatterName("DaBulder", 30, 100, 30);
     }
 
     // <summary>
@@ -25,5 +28,9 @@ public class ChatMessage : MonoBehaviour
         newEmote.GetComponent<Image>().sprite = emote;
     }
 
-    public void SetChatterName(string name) => chattername.text = name;
+    public void SetChatterName(string name, byte Red, byte Green, byte Blue)
+    {
+        chatterName.color = new Color32(Red, Green, Blue, 255);
+        chatterName.text = $"{name}: ";
+    }
 }
