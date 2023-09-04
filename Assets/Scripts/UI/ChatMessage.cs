@@ -24,4 +24,6 @@ public class ChatMessage : MonoBehaviour
         var newEmote = Instantiate(emoteTemplate, transform);
         newEmote.GetComponent<Image>().sprite = emote;
     }
+
+    public void SetChatterName(string name) => chattername.text = name;
 }

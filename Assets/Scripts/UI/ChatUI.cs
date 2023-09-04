@@ -16,6 +16,8 @@ public class ChatUI : MonoBehaviour
     // Funny, Bad, Random
     private UnityEngine.Object[] allEmoteSpritesArray;
 
+    // TODO: store chatter names in a text file and load
+
     // Burst - temporarily set lower maximum value for message spawn timer
     private bool burstActive;
     private float burstTimer;
@@ -104,6 +106,8 @@ public class ChatUI : MonoBehaviour
         GameObject messageObject = Instantiate(messageTemplate, messageContainer.transform);
         messageObject.SetActive(true);
         var chatMessage = messageObject.GetComponent<ChatMessage>();
+
+        // TODO: chatMessage.SetChatterName( some name from list )
 
         int emotesInThisMessage = UnityEngine.Random.Range(1, maxEmotesInMessage);
         bool sameEmoteSpam = UnityEngine.Random.Range(0f, 1f) > sameEmoteSpamChance;
