@@ -1268,8 +1268,7 @@ MonoBehaviour:
   mainLayer: 0
   percLayer: 0
   bassLayer: 0
-  midsLayer: 0
-  atmoLayer: 0
+  beegLayer: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

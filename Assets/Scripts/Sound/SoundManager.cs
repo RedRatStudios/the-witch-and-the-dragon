@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour
     private float volumeMultiplier = 30f;
 
     // storing in a hashmap to prevent float innacuracy bullshit
-    private Dictionary<SoundMixer.Groups, float> normalizedValues = new();
+    private Dictionary<SoundMixer.Groups, float> normalizedVolumeValues = new();
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
         // Load volume settings or set to defaults 
         foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
         {
-            normalizedValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
+            normalizedVolumeValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
         }
     }
 
@@ -42,11 +42,8 @@ public class SoundManager : MonoBehaviour
         position = Camera.main.transform.position;
         foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
         {
-            SetGroupVolume(normalizedValues[group], group);
+            SetGroupVolume(normalizedVolumeValues[group], group);
         }
-
-        // TODO: this should probably be done elsewhere
-        PlayMusic(musicRef.mainMenu);
 
         // subscribe to events here, use PlaySoundEffect().
         // i.e.
@@ -58,6 +55,12 @@ public class SoundManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
             PlaySoundEffect(audioRef.clank);
+
+        if (Input.GetKeyDown(KeyCode.L))
+            PlayMusic(null);
+
+        if (Input.GetKeyDown(KeyCode.U))
+            PlayMusic(musicRef.mainMenu);
     }
 
     private void OnDestroy()
@@ -65,7 +68,7 @@ public class SoundManager : MonoBehaviour
         // Save changes to persist between restarts
         foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
         {
-            PlayerPrefs.SetFloat(group.ToString(), normalizedValues[group]);
+            PlayerPrefs.SetFloat(group.ToString(), normalizedVolumeValues[group]);
         }
 
         PlayerPrefs.Save();
@@ -96,27 +99,38 @@ public class SoundManager : MonoBehaviour
         // TODO: implement this properly
         // TODO: fade in / out
         // TODO: layer switching
+        musicSource.Stop();
 
         musicSource.clip = music;
         musicSource.loop = true;
-        musicSource.Play();
+
+        if (music != null)
+            musicSource.Play();
     }
 
+    // <summary>
+    // Set mixer volume for a given group using 0.0~1.0.
+    // </summary>
     public void SetGroupVolume(float volumeNormalized, SoundMixer.Groups group)
     {
-        normalizedValues[group] = volumeNormalized;
+        normalizedVolumeValues[group] = volumeNormalized;
 
         // converting from 0.0f~1.0f to logarhithmic dB scale
         float realVolume = Mathf.Log10(volumeNormalized) * volumeMultiplier;
-
         audioMixer.SetFloat(group.ToString(), realVolume);
     }
 
+    // <summary>
+    // Get mixer volume for a given group in decibells.
+    // </summary>
     public float GetGroupVolumeReal(SoundMixer.Groups group)
     {
         audioMixer.GetFloat(group.ToString(), out float volume);
         return volume;
     }
 
-    public float GetGroupVolumeNormalized(SoundMixer.Groups group) => normalizedValues[group];
+    // <summary>
+    // Get mixer volume for a given group in 0.0~1.0 float.
+    // </summary>
+    public float GetGroupVolumeNormalized(SoundMixer.Groups group) => normalizedVolumeValues[group];
 }
