@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18029127, g: 0.22572401, b: 0.3069303, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1015,6 +1015,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientsJsonFile: {fileID: 4900000, guid: 763b6a4373d0fc04ca2c39335518da76, type: 3}
+--- !u!1 &1889809386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5671134251504611690, guid: 83f512abd36111d1db2b8e47f802941b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8056196327144693778}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1972321595 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4939242653371747125, guid: 83f512abd36111d1db2b8e47f802941b,
@@ -1125,6 +1131,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2144776953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5762514901663719751, guid: 83f512abd36111d1db2b8e47f802941b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8056196327144693778}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8056196327144693778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1278,6 +1290,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChatUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6971410601703720370, guid: 83f512abd36111d1db2b8e47f802941b,
+        type: 3}
+      propertyPath: chatUsers
+      value: 
+      objectReference: {fileID: 4900000, guid: bdc8ef7b682fc324788b5ff5008d8045, type: 3}
+    - target: {fileID: 6971410601703720370, guid: 83f512abd36111d1db2b8e47f802941b,
+        type: 3}
+      propertyPath: chatUsersFile
+      value: 
+      objectReference: {fileID: 4900000, guid: bdc8ef7b682fc324788b5ff5008d8045, type: 3}
+    - target: {fileID: 6971410601703720370, guid: 83f512abd36111d1db2b8e47f802941b,
+        type: 3}
+      propertyPath: emoteTemplate
+      value: 
+      objectReference: {fileID: 1889809386}
+    - target: {fileID: 6971410601703720370, guid: 83f512abd36111d1db2b8e47f802941b,
+        type: 3}
+      propertyPath: chatterNameTemplate
+      value: 
+      objectReference: {fileID: 2144776953}
     - target: {fileID: 7768173073995246069, guid: 83f512abd36111d1db2b8e47f802941b,
         type: 3}
       propertyPath: m_fontColor.b

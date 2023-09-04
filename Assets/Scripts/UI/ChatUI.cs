@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class ChatUI : MonoBehaviour
@@ -16,7 +17,7 @@ public class ChatUI : MonoBehaviour
     // Funny, Bad, Random
     private UnityEngine.Object[] allEmoteSpritesArray;
 
-    // TODO: store chatter names and their colors in a CSV
+    private ChatUser[] chatUsers;
 
     // Burst - temporarily set lower maximum value for message spawn timer
     private bool burstActive;
@@ -51,6 +52,9 @@ public class ChatUI : MonoBehaviour
         messageGameObjects = new();
 
         allEmoteSpritesArray = Resources.LoadAll("Emotes", typeof(Sprite));
+
+        TextAsset chatUsersTextFile = Resources.Load<TextAsset>("chat_names");
+        chatUsers = JsonConvert.DeserializeObject<ChatUser[]>(chatUsersTextFile.text);
     }
 
     private void Update()
@@ -93,9 +97,13 @@ public class ChatUI : MonoBehaviour
     {
         GameObject messageObject = Instantiate(messageTemplate, messageContainer.transform);
         messageObject.SetActive(true);
+
         var chatMessage = messageObject.GetComponent<ChatMessage>();
 
-        // TODO: chatMessage.SetChatterName( some name from list, color in RGB )
+        ChatUser chatUser = GetRandomChatUser();
+        var color = chatUser.color;
+
+        chatMessage.SetChatterName(chatUser.username, color["red"], color["green"], color["blue"]);
 
         int emotesInThisMessage = UnityEngine.Random.Range(1, maxEmotesInMessage);
         bool sameEmoteSpam = UnityEngine.Random.Range(0f, 1f) > sameEmoteSpamChance;
@@ -114,6 +122,12 @@ public class ChatUI : MonoBehaviour
             Destroy(messageGameObjects[0]);
             messageGameObjects.RemoveAt(0);
         }
+    }
+
+    private ChatUser GetRandomChatUser()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, chatUsers.Length);
+        return chatUsers[randomIndex];
     }
 
     private Sprite GetRandomEmote()
@@ -139,4 +153,13 @@ public class ChatUI : MonoBehaviour
 
         OnBurstStart?.Invoke();
     }
+
+
+}
+
+public class ChatUser
+{
+    public string username;
+    public Dictionary<string, byte> color;
+    public bool sub;
 }
