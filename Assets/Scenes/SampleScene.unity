@@ -461,10 +461,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1872491096}
   m_HandleRect: {fileID: 1981749682}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.0001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1133,6 +1133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 722335126}
   - component: {fileID: 722335125}
+  - component: {fileID: 722335127}
   m_Layer: 0
   m_Name: MusicSource
   m_TagString: Untagged
@@ -1151,8 +1152,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3472698135016725012, guid: 0a2673200a256726e91bb132f1c8f3c3,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9630d3e732d632719839decef2e98132, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.491
   m_Pitch: 1
   Loop: 1
@@ -1252,6 +1253,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1313616850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &722335127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722335124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03caf1d579aed33a0becfd82755357c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainLayer: 0
+  percLayer: 0
+  bassLayer: 0
+  midsLayer: 0
+  atmoLayer: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,6 +1690,8 @@ MonoBehaviour:
   musicSource: {fileID: 722335125}
   effectsSource: {fileID: 243506740}
   audioMixer: {fileID: 24100000, guid: 0a2673200a256726e91bb132f1c8f3c3, type: 2}
+  audioRef: {fileID: 11400000, guid: b6d78ba9e8282e5ffb715468855a16d4, type: 2}
+  musicRef: {fileID: 11400000, guid: 2a9fc5144b4c30070870db872babda59, type: 2}
 --- !u!4 &1313616850
 Transform:
   m_ObjectHideFlags: 0
@@ -1847,10 +1867,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 896288612}
   m_HandleRect: {fileID: 1336188616}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.0001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2071,10 +2091,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1271907791}
   m_HandleRect: {fileID: 424066587}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.0001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

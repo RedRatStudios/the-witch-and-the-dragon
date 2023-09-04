@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioSource musicSource, effectsSource;
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private AudioRef audioRef;
+    [SerializeField] private MusicRef musicRef;
 
     private Vector3 position;
     private float volumeMultiplier = 30f;
@@ -23,45 +25,88 @@ public class SoundManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
-            // Make sure music persists between scene changes
             DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+            Destroy(gameObject);
 
-        InitializeValues();
+        // Load volume settings or set to defaults 
+        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        {
+            normalizedValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
+        }
     }
 
     private void Start()
     {
         position = Camera.main.transform.position;
+        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        {
+            SetGroupVolume(normalizedValues[group], group);
+        }
 
-        // subscribe to events here
+        // TODO: this should probably be done elsewhere
+        PlayMusic(musicRef.mainMenu);
+
+        // subscribe to events here, use PlaySoundEffect().
+        // i.e.
+        // Alchemy.OnIngredientAdded += PlaySoundEffect(audioRef.ingredient);
     }
 
-    private void InitializeValues()
+    // TODO: remove testing code
+    private void Update()
     {
-        // Load volume settings or set to defaults 
-        normalizedValues.Add(SoundMixer.Groups.Master,
-                             PlayerPrefs.GetFloat(SoundMixer.Groups.Master.ToString(), 1f));
-
-        normalizedValues.Add(SoundMixer.Groups.Music,
-                             PlayerPrefs.GetFloat(SoundMixer.Groups.Music.ToString(), 1f));
-
-        normalizedValues.Add(SoundMixer.Groups.Effects,
-                             PlayerPrefs.GetFloat(SoundMixer.Groups.Effects.ToString(), 1f));
+        if (Input.GetKeyDown(KeyCode.P))
+            PlaySoundEffect(audioRef.clank);
     }
 
-    public void PlaySoundEffect(AudioClip audio)
+    private void OnDestroy()
     {
+        // Save changes to persist between restarts
+        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        {
+            PlayerPrefs.SetFloat(group.ToString(), normalizedValues[group]);
+        }
 
+        PlayerPrefs.Save();
+    }
+
+    // Handles cases with multiple sound effects
+    public void PlaySoundEffect(AudioClip[] audioArray, AudioSource source = null, float volume = 1f)
+    {
+        int clipIndex = UnityEngine.Random.Range(0, audioArray.Length);
+        PlaySoundEffect(audioArray[clipIndex], source, volume);
+    }
+
+    // <summary>
+    // Play a sound effect from audioRef scriptable object.
+    // Opitonally pass an object with AudioSource for spatial effects.
+    // </summary>
+    private void PlaySoundEffect(AudioClip audioClip, AudioSource source = null, float volume = 1f)
+    {
+        if (source == null) source = effectsSource;
+        source.PlayOneShot(audioClip, volume);
+    }
+
+    // <summary>
+    // Play music 
+    // </summary>
+    private void PlayMusic(AudioClip music, float volume = 1f)
+    {
+        // TODO: implement this properly
+        // TODO: fade in / out
+        // TODO: layer switching
+
+        musicSource.clip = music;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void SetGroupVolume(float volumeNormalized, SoundMixer.Groups group)
     {
         normalizedValues[group] = volumeNormalized;
 
-        // converting from 0.0f~1.0f to logarhithmic scale
+        // converting from 0.0f~1.0f to logarhithmic dB scale
         float realVolume = Mathf.Log10(volumeNormalized) * volumeMultiplier;
 
         audioMixer.SetFloat(group.ToString(), realVolume);
