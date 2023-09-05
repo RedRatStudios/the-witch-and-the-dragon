@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class PROTOTYPE_IngredientButton : MonoBehaviour
 {
     // Stores ingredient name, and sends it to AlchemyManager on click
-
-    [SerializeField] private string PROTOTYPE_ingredient;
+    [SerializeField] public string ingredient;
 
     void Start()
     {
@@ -15,7 +14,7 @@ public class PROTOTYPE_IngredientButton : MonoBehaviour
 
         button.onClick.AddListener(() =>
         {
-            AlchemyManager.Instance.PROTOTYPE_AddIngredient(PROTOTYPE_ingredient);
+            AlchemyManager.Instance.AddIngredient(ingredient);
         });
     }
 
