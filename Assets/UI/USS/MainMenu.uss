@@ -1,26 +1,59 @@
-#GameTitle {
+#GameTitle
+{
     -unity-font-definition: url('project://database/Assets/UI/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&guid=140916e3203126b4a8270313fc2f1f56&type=2#PressStart2P-Regular SDF');
     font-size: 64px;
     -unity-text-align: upper-center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
-#Container {
+#MenuContainer
+{
     justify-content: center;
     align-items: center;
 }
 
-Button {
-    background-color: rgba(231, 0, 255, 0);
+/*
+#CauldronContainer:hover
+{
+    bottom: 5%;
+}
+*/
+
+Button
+{
     background-image: url('project://database/Assets/UI/Assets/Pixelated%20Button.png?fileID=21300000&guid=a424d2e07c5ab5f448e363c9e1ad6cab&type=3#Pixelated Button');
     width: 380px;
-    height: 72px;
+    height: 75px;
     -unity-font-definition: url('project://database/Assets/UI/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&guid=140916e3203126b4a8270313fc2f1f56&type=2#PressStart2P-Regular SDF');
     font-size: 24px;
-    color: rgb(255, 255, 255);
     margin-bottom: 30px;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
+    color: rgb(254, 255, 255);
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Button:hover
+{
+    -unity-background-image-tint-color: #817981;
+}
+
+Button:active
+{
+    -unity-background-image-tint-color: #312921;
+}
+
+Slider > Label {
+    -unity-font-definition: url('project://database/Assets/UI/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&guid=140916e3203126b4a8270313fc2f1f56&type=2#PressStart2P-Regular SDF');
+    font-size: 24px;
+    color: rgb(254, 255, 255);
+}
+
+Slider > * > * > #unity-tracker
+{
+    width: 800px;
+    height: 50;
+    background-image: url('project://database/Assets/UI/Assets/Pixelated%20Button.png?fileID=21300000&guid=a424d2e07c5ab5f448e363c9e1ad6cab&type=3#Pixelated Button');
+    margin-bottom: 30px;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
 }
