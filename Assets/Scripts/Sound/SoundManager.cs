@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -8,8 +8,9 @@ public class SoundManager : MonoBehaviour
 {
 
     public static SoundManager Instance { get; private set; }
+    public static List<AudioSource> LoopingAudioSources { get; private set; }
 
-    [SerializeField] private AudioSource musicSource, effectsSource;
+    [SerializeField] private AudioSource musicSource, musicSourceSecondary, effectsSource;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioRef audioRef;
     [SerializeField] private MusicRef musicRef;
@@ -17,18 +18,13 @@ public class SoundManager : MonoBehaviour
     private Vector3 position;
     private float volumeMultiplier = 30f;
 
-    // storing in a hashmap to prevent float innacuracy bullshit
+    // storing normalized volume in a hashmap to prevent float innacuracy bullshit
     private Dictionary<SoundMixer.Groups, float> normalizedVolumeValues = new();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
+        Instance = this;
+        LoopingAudioSources = new();
 
         // Load volume settings or set to defaults 
         foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
@@ -54,13 +50,23 @@ public class SoundManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
+        {
             PlaySoundEffect(audioRef.clank);
+            PlaySoundEffect(audioRef.clank, loop: true);
+            PlaySoundEffect(audioRef.loop_boil);
+        }
 
         if (Input.GetKeyDown(KeyCode.L))
             PlayMusic(null);
 
         if (Input.GetKeyDown(KeyCode.U))
-            PlayMusic(musicRef.mainMenu);
+            PlayMusic(musicRef.megalovaniaLoop, musicRef.megalovaniaIntro);
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            musicSource.time = musicSource.clip.length / 10 * 9;
+            musicSourceSecondary.time = musicSource.clip.length / 10 * 9;
+        }
     }
 
     private void OnDestroy()
@@ -74,38 +80,94 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // Handles cases with multiple sound effects
-    public void PlaySoundEffect(AudioClip[] audioArray, AudioSource source = null, float volume = 1f)
+    // <summary>
+    // Play a sound effect from audioRef scriptable object.
+    // Opitonally, pass an object to spawn the sound at.
+    // This one handles cases with multiple sound effects
+    // </summary>
+    public void PlaySoundEffect(AudioClip[] audioArray, bool loop = false, GameObject audioOrigin = null, float volume = 1f)
     {
         int clipIndex = UnityEngine.Random.Range(0, audioArray.Length);
-        PlaySoundEffect(audioArray[clipIndex], source, volume);
+        PlaySoundEffect(audioArray[clipIndex], loop, audioOrigin, volume);
     }
 
     // <summary>
     // Play a sound effect from audioRef scriptable object.
-    // Opitonally pass an object with AudioSource for spatial effects.
+    // Opitonally, pass an object to spawn the sound at.
     // </summary>
-    private void PlaySoundEffect(AudioClip audioClip, AudioSource source = null, float volume = 1f)
+    public void PlaySoundEffect(AudioClip audioClip, bool loop = false, GameObject audioOrigin = null, float volume = 1f)
     {
-        if (source == null) source = effectsSource;
-        source.PlayOneShot(audioClip, volume);
+        if (audioOrigin == null)
+            audioOrigin = Camera.main.gameObject;
+
+        AudioSource source = audioOrigin.AddComponent<AudioSource>();
+
+        // I really don't like Unity's sound management.
+        source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(SoundMixer.Groups.Effects.ToString())[0];
+
+        source.loop = loop;
+        source.clip = audioClip;
+        source.volume = volume;
+        source.Play();
+
+        if (!loop)
+            StartCoroutine(SourceDestroyer9000(source, audioClip.length));
+        else
+            // Not cleaning up forever looping sources just yet, so just store them for later reference
+            LoopingAudioSources.Add(source);
+    }
+
+    private IEnumerator SourceDestroyer9000(AudioSource audioOrigin, float delay)
+    {
+        yield return new WaitForSeconds(delay + 1f);
+        Destroy(audioOrigin);
     }
 
     // <summary>
-    // Play music 
+    // Play a music loop or a loop+intro combination.
     // </summary>
-    private void PlayMusic(AudioClip music, float volume = 1f)
+    private void PlayMusic(AudioClip musicLoop, AudioClip musicIntro = null, float volume = 1f, bool fadeout = true)
     {
         // TODO: implement this properly
-        // TODO: fade in / out
         // TODO: layer switching
+
+        if (fadeout)
+        {
+            // TODO: fade in / out
+        }
+
         musicSource.Stop();
+        musicSourceSecondary.Stop();
 
-        musicSource.clip = music;
-        musicSource.loop = true;
+        if (musicIntro == null)
+        {
+            musicSource.clip = musicLoop;
+            musicSource.loop = true;
 
-        if (music != null)
-            musicSource.Play();
+            if (musicLoop != null)
+                musicSource.Play();
+            return;
+        }
+
+        if (musicLoop == null)
+        {
+            Debug.LogError("Provided an intro but not a loop.");
+            return;
+        }
+
+        // Play out the intro if provided, schedule loop to play
+        musicSource.clip = musicIntro;
+        musicSource.loop = false;
+
+        musicSourceSecondary.clip = musicLoop;
+        musicSourceSecondary.loop = true;
+
+        // precise calculation because clip.length lies to you
+        double duration = (double)musicIntro.samples / musicIntro.frequency;
+
+        double delay = 0.05d; // hack to stop some weirdness
+        musicSource.PlayScheduled(AudioSettings.dspTime + delay);
+        musicSourceSecondary.PlayScheduled(AudioSettings.dspTime + duration + delay);
     }
 
     // <summary>

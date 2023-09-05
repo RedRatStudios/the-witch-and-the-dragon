@@ -3,5 +3,8 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class MusicRef : ScriptableObject
 {
-    public AudioClip mainMenu;
+    public AudioClip mainMenuLoop;
+
+    public AudioClip megalovaniaIntro;
+    public AudioClip megalovaniaLoop;
 }
