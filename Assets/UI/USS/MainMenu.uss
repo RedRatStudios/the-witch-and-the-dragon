@@ -1,0 +1,26 @@
+#GameTitle {
+    -unity-font-definition: url('project://database/Assets/UI/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&guid=140916e3203126b4a8270313fc2f1f56&type=2#PressStart2P-Regular SDF');
+    font-size: 64px;
+    -unity-text-align: upper-center;
+    margin-bottom: 30px;
+}
+
+#Container {
+    justify-content: center;
+    align-items: center;
+}
+
+Button {
+    background-color: rgba(231, 0, 255, 0);
+    background-image: url('project://database/Assets/UI/Assets/Pixelated%20Button.png?fileID=21300000&guid=a424d2e07c5ab5f448e363c9e1ad6cab&type=3#Pixelated Button');
+    width: 380px;
+    height: 72px;
+    -unity-font-definition: url('project://database/Assets/UI/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&guid=140916e3203126b4a8270313fc2f1f56&type=2#PressStart2P-Regular SDF');
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 30px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
