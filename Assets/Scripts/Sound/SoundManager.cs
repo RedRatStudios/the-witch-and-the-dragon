@@ -165,7 +165,7 @@ public class SoundManager : MonoBehaviour
         // precise calculation because clip.length lies to you
         double duration = (double)musicIntro.samples / musicIntro.frequency;
 
-        double delay = 0.05d; // hack to stop some weirdness
+        double delay = 0.3d; // hack to stop some weirdness
         musicSource.PlayScheduled(AudioSettings.dspTime + delay);
         musicSourceSecondary.PlayScheduled(AudioSettings.dspTime + duration + delay);
     }
