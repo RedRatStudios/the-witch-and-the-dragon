@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3330dcf0e2a70b9e878c2ec0da3f9c1, type: 3}
   m_Name: MusicRef
   m_EditorClassIdentifier: 
-  mainMenuLoop: {fileID: 8300000, guid: 9630d3e732d632719839decef2e98132, type: 3}
-  megalovaniaIntro: {fileID: 8300000, guid: cd5d8d330acba27b2bd06cbb4a57ea63, type: 3}
-  megalovaniaLoop: {fileID: 8300000, guid: 3b5884f4e19ee3370b7c9d2c46aa6b83, type: 3}
+  mainMenuLoop: {fileID: 8300000, guid: 97dfde0ba4ac0fb038ba64f0ded2eeb4, type: 3}
+  megalovaniaIntro: {fileID: 8300000, guid: ffe981b44b79e933cabb9339f534f5d2, type: 3}
+  megalovaniaLoop: {fileID: 8300000, guid: d6fcf32a9afcbd565aaf76b3d2305fce, type: 3}

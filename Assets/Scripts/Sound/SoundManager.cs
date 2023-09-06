@@ -144,6 +144,8 @@ public class SoundManager : MonoBehaviour
             musicSource.clip = musicLoop;
             musicSource.loop = true;
 
+            musicSourceSecondary.clip = null;
+
             if (musicLoop != null)
                 musicSource.Play();
             return;
@@ -165,7 +167,12 @@ public class SoundManager : MonoBehaviour
         // precise calculation because clip.length lies to you
         double duration = (double)musicIntro.samples / musicIntro.frequency;
 
-        double delay = 0.3d; // hack to stop some weirdness
+        // hack to make sure the option that is literally SUPPOSED to play things SEAMLESSLY
+        // has time to LOAD and COMPRESS the file before playing it so that it doesn't cause a GAP
+        // because APPARENTLY it doesn't do it in advance.
+        // what the fuck unity.
+        double delay = 0.5d;
+
         musicSource.PlayScheduled(AudioSettings.dspTime + delay);
         musicSourceSecondary.PlayScheduled(AudioSettings.dspTime + duration + delay);
     }
