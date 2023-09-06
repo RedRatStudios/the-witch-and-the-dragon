@@ -214,5 +214,11 @@
         "funny": 0.8,
         "annoying": 0.6,
         "topic": null
-    }
+    },
+    "curve": {
+        "message": "Your curve is atrocious, sire",
+        "funny": 0.4,
+        "annoying": 0.2,
+        "topic": null
+    },
 }
