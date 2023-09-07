@@ -1,0 +1,224 @@
+{
+    "ayaya": {
+        "message": "AYAYA",
+        "funny": 0.2,
+        "annoying": 0.2,
+        "topic": null
+    },
+    "nyeh": {
+        "message": "Nyeh?",
+        "funny": 0.1,
+        "annoying": 0.1,
+        "topic": "danganronpa"
+    },
+    "breathing": {
+        "message": "Why are you breathing so loud?",
+        "funny": 0.8,
+        "annoying": 0.9,
+        "topic": null
+    },
+    "booba": {
+        "message": "BOOBA",
+        "funny": 0.1,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "japan1980": {
+        "message": "IT WAS FINE IN THE 1980s JAPAN JOE",
+        "funny": 0.4,
+        "annoying": 0.6,
+        "topic": null
+    },
+    "disco": {
+        "message": "Have you ever heard of Disco Elysium?",
+        "funny": 0.2,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "playingWrong": {
+        "message": "Joe you're literally playing it wrong, you're supposed to heal",
+        "funny": 0.2,
+        "annoying": 0.4,
+        "topic": null
+    },
+    "sexBed": {
+        "message": "That's right I've got TWO beds and NEITHER is a sex bed.",
+        "funny": 0.6,
+        "annoying": 0.2,
+        "topic": null
+    },
+    "witcherPasta": {
+        "message": "Hey Joseph, big fan of your streams! I just have question about which Witcher game should I play as my first? The Witcher 1, which was incomplete just like you knowledge about how to land on Sun Station? The Witcher 2, which was an interesting but unrealized experience which dragged on for too long, just like your attempts at landing on the Sun Station? Or The Witcher 3, video on which will never be released just like we'll never be released from this torture.",
+        "funny": 0.6,
+        "annoying": 0.7,
+        "topic": "witcher"
+    },
+    "ketchup": {
+        "message": "FUCK OFF JOE KETCHUP ON EGGS IS GREAT",
+        "funny": 0.4,
+        "annoying": 0.4,
+        "topic": null
+    },
+    "sprinklers": {
+        "message": "Sprinkler. The sixteenth piece of evidence. Lying hidden until 7:30am. The one they call the Ultimate Contradiction. Watch out for it.",
+        "funny": 0.8,
+        "annoying": 1.0,
+        "topic": "danganronpa"
+    },
+    "threeHouses": {
+        "message": "Please Joe, Please give us an 11 hour twist to save Fire Emblem, I'LL DO ANYTHING!!",
+        "funny": 0.7,
+        "annoying": 0.3,
+        "topic": null
+    },
+    "witcher3": {
+        "message": "WITCHER 3???????",
+        "funny": 0.0,
+        "annoying": 0.4,
+        "topic": "witcher"
+    },
+    "whatIsJads": {
+        "message": "what is jads ??",
+        "funny": 0.3,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "eatAss": {
+        "message": "Eat her ass",
+        "funny": 0.8,
+        "annoying": 0.4,
+        "topic": "persona"
+    },
+    "bdsm": {
+        "message": "I'll gladly leave everything behind, including moving across the globe if I have to, for the BDSM life of my dreams",
+        "funny": 0.8,
+        "annoying": 0.6,
+        "topic": null
+    },
+    "vegetables": {
+        "message": "Great Vegetables",
+        "funny": 0.3,
+        "annoying": 0.1,
+        "topic": "persona"
+    },
+    "youtube": {
+        "message": "@andersonjph ANSWER MY YOUTUBE COMMENT",
+        "funny": 0.2,
+        "annoying": 0.8,
+        "topic": null
+    },
+    "outerPasta": {
+        "message": "30 years passed. Joseph has been obsessing over landing on the sun station for a half of his entire life, and now he finally did it. \"I did it Lily! I landed on it!\" He turned around. But the viewers, Lily and the kids were already long gone FeelsBadMan",
+        "funny": 0.5,
+        "annoying": 0.3,
+        "topic": null
+    },
+    "autoPets": {
+        "message": "I'd rather watch a better Canadian play Autopets ngl",
+        "funny": 0.4,
+        "annoying": 0.4,
+        "topic": null
+    },
+    "jermaStream": {
+        "message": "If this were a Jerma stream he'd have committed.",
+        "funny": 0.3,
+        "annoying": 0.5,
+        "topic": null
+    },
+    "oldJoe": {
+        "message": "2019 Joe wouldn't quit here",
+        "funny": 0.4,
+        "annoying": 0.4,
+        "topic": null
+    },
+    "chuuni": {
+        "message": "He's a chuunibiyou Joe THATS WHY HE THINKS THAT",
+        "funny": 0.1,
+        "annoying": 0.5,
+        "topic": null
+    },
+    "witcherNever": {
+        "message": "Do you really think he's still working on W3? jphNyeh",
+        "funny": 0.2,
+        "annoying": 0.3,
+        "topic": null
+    },
+    "naziMommy": {
+        "message": "who is this nazi mommy? I'm into it",
+        "funny": 0.3,
+        "annoying": 0.5,
+        "topic": null
+    },
+    "daddiesJizzies": {
+        "message": "DaddiesJizzies, thanks for gift sub AYAYA",
+        "funny": 0.2,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "pissDebate": {
+        "message": "HOW DO YOU ONLY USE TOWELS ONCE BUT PISS ON YOUR OWN FEET",
+        "funny": 0.6,
+        "annoying": 0.3,
+        "topic": null
+    },
+    "evolve": {
+        "message": "can we just go back to Evolve instead of this",
+        "funny": 0.1,
+        "annoying": 0.2,
+        "topic": null
+    },
+    "danganronpaClass": {
+        "message": "I went to an in-person Dananronpa class trial last weekend. What have you done to me?",
+        "funny": 0.3,
+        "annoying": 0.0,
+        "topic": null
+    },
+    "pissgate": {
+        "message": "INVESTIGATE PISSGATE. STAY WOKE.",
+        "funny": 0.9,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "swimsuit": {
+        "message": "I'll be waiting... In my swimsuit",
+        "funny": 0.2,
+        "annoying": 0.0,
+        "topic": null
+    },
+    "isabelle": {
+        "message": "@andersonjph wrong opinion oomfie :isabelle:",
+        "funny": 0.2,
+        "annoying": 0.2,
+        "topic": null
+    },
+    "yta": {
+        "message": "YTA his house his rules",
+        "funny": 0.3,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "joeDotDot": {
+        "message": "Joe...",
+        "funny": 0.2,
+        "annoying": 0.1,
+        "topic": null
+    },
+    "alienBunny": {
+        "message": "alien race of blond bunnygirls confirmed?",
+        "funny": 0.6,
+        "annoying": 0.2,
+        "topic": null
+    },
+    "pisscock": {
+        "message": "good old pisscock",
+        "funny": 0.8,
+        "annoying": 0.6,
+        "topic": null
+    },
+    "curve": {
+        "message": "Your curve is atrocious, sire",
+        "funny": 0.4,
+        "annoying": 0.2,
+        "topic": null
+    },
+}
