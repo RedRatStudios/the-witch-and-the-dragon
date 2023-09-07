@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/UI/ChatMessage.cs.meta
+guid: 02583698fbad2a0a6aa822ebf7b34812
+========
+guid: 160fa197f80c4d767a8237cb6f2445d9
+>>>>>>>> main:Assets/Scripts/Alchemy/AlchemyManager.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
