@@ -11,7 +11,6 @@ public class ChatMessage : MonoBehaviour
 
     private void Start()
     {
-        // chatterNameTemplate.SetActive(false);
         emoteTemplate.SetActive(false);
     }
 
@@ -27,8 +26,6 @@ public class ChatMessage : MonoBehaviour
 
     public void SetChatterName(string name, byte Red, byte Green, byte Blue)
     {
-        // var newChatterName = Instantiate(chatterNameTemplate, transform).GetComponent<TextMeshProUGUI>();
-
         if (Red + Green + Blue == 0)
         {
             Red = (byte)Random.Range(150, 256);

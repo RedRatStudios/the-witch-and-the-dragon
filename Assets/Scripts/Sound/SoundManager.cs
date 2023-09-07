@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     public static List<AudioSource> LoopingAudioSources { get; private set; }
 
     [SerializeField] private AudioSource musicSource, musicSourceSecondary, effectsSource;
-    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private UnityEngine.Audio.AudioMixer audioMixer;
     [SerializeField] private AudioRef audioRef;
     [SerializeField] private MusicRef musicRef;
 
@@ -19,7 +19,7 @@ public class SoundManager : MonoBehaviour
     private float volumeMultiplier = 30f;
 
     // storing normalized volume in a hashmap to prevent float innacuracy bullshit
-    private Dictionary<SoundMixer.Groups, float> normalizedVolumeValues = new();
+    private Dictionary<AudioMixer.Groups, float> normalizedVolumeValues = new();
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
         LoopingAudioSources = new();
 
         // Load volume settings or set to defaults 
-        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
         {
             normalizedVolumeValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
         }
@@ -36,7 +36,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         position = Camera.main.transform.position;
-        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
         {
             SetGroupVolume(normalizedVolumeValues[group], group);
         }
@@ -72,7 +72,7 @@ public class SoundManager : MonoBehaviour
     private void OnDestroy()
     {
         // Save changes to persist between restarts
-        foreach (SoundMixer.Groups group in Enum.GetValues(typeof(SoundMixer.Groups)))
+        foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
         {
             PlayerPrefs.SetFloat(group.ToString(), normalizedVolumeValues[group]);
         }
@@ -103,7 +103,7 @@ public class SoundManager : MonoBehaviour
         AudioSource source = audioOrigin.AddComponent<AudioSource>();
 
         // I really don't like Unity's sound management.
-        source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(SoundMixer.Groups.Effects.ToString())[0];
+        source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(AudioMixer.Groups.Effects.ToString())[0];
 
         source.loop = loop;
         source.clip = audioClip;
@@ -167,7 +167,7 @@ public class SoundManager : MonoBehaviour
         // precise calculation because clip.length lies to you
         double duration = (double)musicIntro.samples / musicIntro.frequency;
 
-        // hack to make sure the option that is literally SUPPOSED to play things SEAMLESSLY
+        // HACK: delay to make sure the option that is literally SUPPOSED to play things SEAMLESSLY
         // has time to LOAD and COMPRESS the file before playing it so that it doesn't cause a GAP
         // because APPARENTLY it doesn't do it in advance.
         // what the fuck unity.
@@ -180,7 +180,7 @@ public class SoundManager : MonoBehaviour
     // <summary>
     // Set mixer volume for a given group using 0.0~1.0.
     // </summary>
-    public void SetGroupVolume(float volumeNormalized, SoundMixer.Groups group)
+    public void SetGroupVolume(float volumeNormalized, AudioMixer.Groups group)
     {
         normalizedVolumeValues[group] = volumeNormalized;
 
@@ -192,7 +192,7 @@ public class SoundManager : MonoBehaviour
     // <summary>
     // Get mixer volume for a given group in decibells.
     // </summary>
-    public float GetGroupVolumeReal(SoundMixer.Groups group)
+    public float GetGroupVolumeReal(AudioMixer.Groups group)
     {
         audioMixer.GetFloat(group.ToString(), out float volume);
         return volume;
@@ -201,5 +201,5 @@ public class SoundManager : MonoBehaviour
     // <summary>
     // Get mixer volume for a given group in 0.0~1.0 float.
     // </summary>
-    public float GetGroupVolumeNormalized(SoundMixer.Groups group) => normalizedVolumeValues[group];
+    public float GetGroupVolumeNormalized(AudioMixer.Groups group) => normalizedVolumeValues[group];
 }

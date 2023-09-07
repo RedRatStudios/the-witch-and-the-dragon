@@ -1,6 +1,6 @@
 
 // Stores some supplementary values to eliminate typo errors
-public class SoundMixer
+public class AudioMixer
 {
     public enum Groups
     {
