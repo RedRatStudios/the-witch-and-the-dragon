@@ -12,8 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64814de04f88b2a069994d35b2edaea8, type: 3}
   m_Name: AudioRef
   m_EditorClassIdentifier: 
-  clank:
-  - {fileID: 8300000, guid: 1724f60d3cb0708e5b5ae933debd76a4, type: 3}
   loop_boil:
   - {fileID: 8300000, guid: 54f964fc012907116b7d18726ea0f431, type: 3}
-  music_main: {fileID: 8300000, guid: 9630d3e732d632719839decef2e98132, type: 3}
+  messageCooked_Bad:
+  - {fileID: 8300000, guid: 0629238fcf3e5434abdd012737930b00, type: 3}
+  messageCooked_OK:
+  - {fileID: 8300000, guid: 1ddf711f27931fba1b8602a560bee7cf, type: 3}
+  messageCooked_Good:
+  - {fileID: 8300000, guid: 79a0d7c67ee5b40099ca044f3486ab57, type: 3}
+  messageCooked_Amazing:
+  - {fileID: 8300000, guid: 089ec8048326dd05cb2b5fc93f0a5dfd, type: 3}
+  ingredientPickup:
+  - {fileID: 8300000, guid: 68396302b6a929481a63555633af2b4d, type: 3}
+  ingredientDrop:
+  - {fileID: 8300000, guid: ff360eda6ed3fedd28a84754e26e76e8, type: 3}
+  chatTyping:
+  - {fileID: 8300000, guid: dde51263154206e44b8fe51ba93cc924, type: 3}
+  - {fileID: 8300000, guid: 2aaa77e719b4a71329a83a77fa71783d, type: 3}
+  - {fileID: 8300000, guid: 7c59660199273a3f5a38d3892e5cce37, type: 3}
+  - {fileID: 8300000, guid: 5fea00756392fdfb381bf8bc50eb95ed, type: 3}
+  gettingBanned:
+  - {fileID: 8300000, guid: b2108dbb374f3d7bca1abd18f068b0ce, type: 3}
+  witchNegative:
+  - {fileID: 8300000, guid: 93920be836e5a4d4fbbd5b9034d3857c, type: 3}
+  - {fileID: 8300000, guid: 563b5299328d8644d9f2de359b8839e5, type: 3}
+  - {fileID: 8300000, guid: 3db104dceec5504438fe051748fb6d47, type: 3}
+  - {fileID: 8300000, guid: e518cf2127e5f704b84a1d4179f46a96, type: 3}
+  - {fileID: 8300000, guid: c7a07835bff553f48aa41fb06281c366, type: 3}
+  witchPositive:
+  - {fileID: 8300000, guid: 21ea426ca3c5f4b428566f5ee5b59258, type: 3}
+  - {fileID: 8300000, guid: 120720aeb99e60f4f96316356b0b0fa3, type: 3}
+  buttonPress:
+  - {fileID: 8300000, guid: 0c0c2140b7addf6e2a02c3dec34c37c8, type: 3}
+  buttonRelease:
+  - {fileID: 8300000, guid: 2b105fe151e23d61d9526ea191056a80, type: 3}
+  coin:
+  - {fileID: 8300000, guid: d39722bfe2764314aac7b205ee7a11ce, type: 3}
+  upgradeBought:
+  - {fileID: 8300000, guid: e2838eeb06a04c1388d032a1d00bf302, type: 3}
+  - {fileID: 8300000, guid: c65d9efdbf35f6ec3ba402cc2e432411, type: 3}
+  JoeNoises:
+  - {fileID: 8300000, guid: a63095cc35eaf3bb4831bd0c197c6955, type: 3}
+  - {fileID: 8300000, guid: a1cd0d1554dabd7198bd48f072f3dcce, type: 3}
+  - {fileID: 8300000, guid: 8ae1a2b3d0d2151fdbcf428d994d59d5, type: 3}

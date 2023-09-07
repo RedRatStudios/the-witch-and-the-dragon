@@ -51,9 +51,8 @@ public class SoundManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PlaySoundEffect(audioRef.clank);
-            PlaySoundEffect(audioRef.clank, loop: true);
-            PlaySoundEffect(audioRef.loop_boil);
+            PlaySoundEffect(audioRef.messageCooked_Amazing);
+            PlaySoundEffect(audioRef.loop_boil, true);
         }
 
         if (Input.GetKeyDown(KeyCode.L))
