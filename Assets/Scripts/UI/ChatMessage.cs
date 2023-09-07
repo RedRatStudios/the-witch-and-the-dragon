@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class ChatMessage : MonoBehaviour
 {
     [SerializeField] private GameObject emoteTemplate;
-    [SerializeField] private GameObject chatterNameTemplate;
+    [SerializeField] private TextMeshProUGUI chatterName;
 
     private void Start()
     {
-        chatterNameTemplate.SetActive(false);
+        // chatterNameTemplate.SetActive(false);
         emoteTemplate.SetActive(false);
     }
 
@@ -27,7 +27,7 @@ public class ChatMessage : MonoBehaviour
 
     public void SetChatterName(string name, byte Red, byte Green, byte Blue)
     {
-        var newChatterName = Instantiate(chatterNameTemplate, transform).GetComponent<TextMeshProUGUI>();
+        // var newChatterName = Instantiate(chatterNameTemplate, transform).GetComponent<TextMeshProUGUI>();
 
         if (Red + Green + Blue == 0)
         {
@@ -36,7 +36,7 @@ public class ChatMessage : MonoBehaviour
             Blue = (byte)Random.Range(150, 256);
         }
 
-        newChatterName.color = new Color32(Red, Green, Blue, 255);
-        newChatterName.text = $"{name}: ";
+        chatterName.color = new Color32(Red, Green, Blue, 255);
+        chatterName.text = $"{name}: ";
     }
 }
