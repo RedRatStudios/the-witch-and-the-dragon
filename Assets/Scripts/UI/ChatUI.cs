@@ -1,17 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ChatUI : MonoBehaviour
 {
     public static ChatUI Instance;
-    public event Action OnBurstStart;
-    public event Action OnBurstEnd;
+
+    public static event Action OnBurstStart;
+    public static event Action OnBurstEnd;
+    public static event Action OnMessageSpawned;
 
     public enum MessageType { Good, Bad, Any }
 
@@ -25,7 +24,7 @@ public class ChatUI : MonoBehaviour
 
     private ChatUser[] chatUsers;
 
-    // Burst - temporarily set lower maximum value for message spawn timer
+    // Burst - temporarily lower maximum value for message spawn timer
     private bool burstActive;
     private float burstTimer;
     private float burstTimeout = 3f;
@@ -133,6 +132,8 @@ public class ChatUI : MonoBehaviour
             chatMessage.AddEmote(emoteSprite);
             if (!sameEmoteSpam) emoteSprite = GetRandomEmote(type);
         }
+
+        OnMessageSpawned?.Invoke();
 
         // Track and cull excess messages
         messageGameObjects.Add(messageObject);

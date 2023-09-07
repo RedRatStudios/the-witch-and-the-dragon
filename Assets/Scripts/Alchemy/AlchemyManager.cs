@@ -8,7 +8,13 @@ using UnityEngine;
 public class AlchemyManager : MonoBehaviour
 {
     public static AlchemyManager Instance;
-    public event Action<Dictionary<string, string>> OnIngredientsCombined;
+
+    public static event Action<Dictionary<string, string>> OnIngredientsCombined;
+
+    public static event Action OnSpicyMessageSent;
+    public static event Action OnFunnyMessageSent;
+    public static event Action OnBadMessageSent;
+    public static event Action OnOKMessageSent;
 
     [SerializeField] private TextAsset ingredientsFile;
     [SerializeField] private TextAsset messageDataFile;
@@ -74,6 +80,7 @@ public class AlchemyManager : MonoBehaviour
     // <summary>
     // Combine the ingredients, handle edge cases, clean both slots.
     // On finishing, invokes OnIngredientsCombined with full message properties as parameter.
+    // As well as a couple more specific events.
     // </summary>
     public void CombineIngredients()
     {
@@ -111,7 +118,30 @@ public class AlchemyManager : MonoBehaviour
     FinishCombining:
         choiceOne = null;
         choiceTwo = null;
-        OnIngredientsCombined?.Invoke(messageDataDict[outputResult]);
+
+        var messageData = messageDataDict[outputResult];
+        OnIngredientsCombined?.Invoke(messageData);
+
+        double funny = Convert.ToDouble(messageData["funny"]);
+        double annoying = Convert.ToDouble(messageData["annoying"]);
+
+        if (funny >= .6)
+        {
+            if (annoying >= funny - .25)
+                OnSpicyMessageSent?.Invoke();
+            else
+                OnFunnyMessageSent?.Invoke();
+
+            return;
+        }
+
+        if (annoying >= funny + .25)
+        {
+            OnBadMessageSent?.Invoke();
+            return;
+        }
+
+        OnOKMessageSent?.Invoke();
     }
 
 

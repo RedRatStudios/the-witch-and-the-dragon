@@ -25,5 +25,6 @@ public class AudioRef : ScriptableObject
     public AudioClip[] coin;
     public AudioClip[] upgradeBought;
 
-    public AudioClip[] JoeNoises;
+    public AudioClip[] joeNegative;
+    public AudioClip[] joePositive;
 }

@@ -28,22 +28,23 @@ public class SoundManager : MonoBehaviour
 
         // Load volume settings or set to defaults 
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
-        {
             normalizedVolumeValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
-        }
     }
 
     private void Start()
     {
         position = Camera.main.transform.position;
+
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
-        {
             SetGroupVolume(normalizedVolumeValues[group], group);
-        }
 
         // subscribe to events here, use PlaySoundEffect().
-        // i.e.
-        // Alchemy.OnIngredientAdded += PlaySoundEffect(audioRef.ingredient);
+        ChatUI.OnMessageSpawned += () => PlaySoundEffect(audioRef.chatTyping, volume: 0.2f);
+
+        AlchemyManager.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
+        AlchemyManager.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
+        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
+        AlchemyManager.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
     }
 
     // TODO: remove testing code
@@ -55,26 +56,20 @@ public class SoundManager : MonoBehaviour
             PlaySoundEffect(audioRef.loop_boil, true);
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Semicolon))
             PlayMusic(null);
 
         if (Input.GetKeyDown(KeyCode.U))
             PlayMusic(musicRef.megalovaniaLoop, musicRef.megalovaniaIntro);
-
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            musicSource.time = musicSource.clip.length / 10 * 9;
-            musicSourceSecondary.time = musicSource.clip.length / 10 * 9;
-        }
     }
 
     private void OnDestroy()
     {
-        // Save changes to persist between restarts
+        DestroyLoopingSources();
+
+        // Save changes to sound settings to persist between restarts
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
-        {
             PlayerPrefs.SetFloat(group.ToString(), normalizedVolumeValues[group]);
-        }
 
         PlayerPrefs.Save();
     }
@@ -101,7 +96,6 @@ public class SoundManager : MonoBehaviour
 
         AudioSource source = audioOrigin.AddComponent<AudioSource>();
 
-        // I really don't like Unity's sound management.
         source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(AudioMixer.Groups.Effects.ToString())[0];
 
         source.loop = loop;
@@ -112,10 +106,16 @@ public class SoundManager : MonoBehaviour
         if (!loop)
             StartCoroutine(SourceDestroyer9000(source, audioClip.length));
         else
-            // Not cleaning up forever looping sources just yet, so just store them for later reference
+            // Keeping track of looping sources to destroy them whenever soundmanager itself is destroyed.
             LoopingAudioSources.Add(source);
     }
 
+    // HACK: idfk how exactly you're supposed to manage multiple sound effects in Unity
+    // but you can't play all of them from the same source, and PlayOneShot() is
+    // extremely restrictive: namely, it doesn't let you choose a mixer group.
+    // So I'm just keeping track of all spawned sound sources and yeet them when their time comes.
+    // I really don't like Unity's sound management.
+    // also psd is not my favorite file format
     private IEnumerator SourceDestroyer9000(AudioSource audioOrigin, float delay)
     {
         yield return new WaitForSeconds(delay + 1f);
@@ -125,7 +125,7 @@ public class SoundManager : MonoBehaviour
     // <summary>
     // Play a music loop or a loop+intro combination.
     // </summary>
-    private void PlayMusic(AudioClip musicLoop, AudioClip musicIntro = null, float volume = 1f, bool fadeout = true)
+    public void PlayMusic(AudioClip musicLoop, AudioClip musicIntro = null, float volume = 1f, bool fadeout = true)
     {
         // TODO: implement this properly
         // TODO: layer switching
@@ -195,6 +195,14 @@ public class SoundManager : MonoBehaviour
     {
         audioMixer.GetFloat(group.ToString(), out float volume);
         return volume;
+    }
+
+    // <summary>
+    // Destroy() all currently looping sound effects.
+    // </summary>
+    public void DestroyLoopingSources()
+    {
+        foreach (var source in LoopingAudioSources) Destroy(source);
     }
 
     // <summary>
