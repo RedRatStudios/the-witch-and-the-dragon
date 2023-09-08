@@ -76,8 +76,8 @@ public class ChatUI : MonoBehaviour
         UpdateTimer();
 
         //TODO: remove testing code
-        if (Input.GetKeyDown(KeyCode.L)) ActivateBurst(MessageType.Good);
-        if (Input.GetKeyDown(KeyCode.U)) ActivateBurst(MessageType.Bad);
+        if (Input.GetKeyDown(KeyCode.F11)) ActivateBurst(MessageType.Good);
+        if (Input.GetKeyDown(KeyCode.F12)) ActivateBurst(MessageType.Bad);
     }
 
     private void UpdateTimer()

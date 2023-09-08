@@ -37,15 +37,14 @@ public class SoundManager : MonoBehaviour
 
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
             SetGroupVolume(normalizedVolumeValues[group], group);
-
         // subscribe to events here, use PlaySoundEffect().
         ChatUI.OnMessageSpawned += () => PlaySoundEffect(audioRef.chatTyping, volume: 0.2f);
 
-        AlchemyManager.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
-        AlchemyManager.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
-        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
-        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.witchPositive);
-        AlchemyManager.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
+        AlchemyManager.Instance.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
+        AlchemyManager.Instance.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
+        AlchemyManager.Instance.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
+        AlchemyManager.Instance.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.witchPositive);
+        AlchemyManager.Instance.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
 
         // too annoying
         // MonocoinManager.OnMonocoinsChanged += () => PlaySoundEffect(audioRef.coin, volume: 0.08f);
@@ -53,24 +52,27 @@ public class SoundManager : MonoBehaviour
         BuyUpgradeButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
         BuyUpgradeButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
 
-        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
-        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.witchPositive);
-        UpgradeManager.OnRogueModFail += () => PlaySoundEffect(audioRef.witchNegative);
+        UpgradeManager.Instance.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
+        UpgradeManager.Instance.OnRogueModSuccess += () => PlaySoundEffect(audioRef.witchPositive);
+        UpgradeManager.Instance.OnRogueModFail += () => PlaySoundEffect(audioRef.witchNegative);
+
+        AngerManager.Instance.OnMaxAnger += () => PlaySoundEffect(audioRef.gettingBanned);
+
+        SceneMoodManager.Instance.OnMoodUpdate += mood => { ChooseMusic(mood); };
+
+        PlayMusic(musicRef.mainMenuLoop, delay: 0f, fadeout: false, fadein: false);
+        PlaySoundEffect(audioRef.loop_boil, true, volume: .8f);
     }
 
-    // TODO: remove testing code
-    private void Update()
+    private void ChooseMusic(SceneMoods mood)
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PlaySoundEffect(audioRef.loop_boil, true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Semicolon))
-            PlayMusic(null);
-
-        if (Input.GetKeyDown(KeyCode.U))
+        // quick and dirty
+        if (mood == SceneMoods.Default)
             PlayMusic(musicRef.mainMenuLoop);
+        else if (mood == SceneMoods.Persona4)
+            PlayMusic(musicRef.dreamComeTrueLoop, musicRef.dreamComeTrueIntro);
+        else if (mood == SceneMoods.Undertale)
+            PlayMusic(musicRef.megalovaniaLoop, musicRef.megalovaniaIntro);
     }
 
     private void OnDestroy()
@@ -135,55 +137,65 @@ public class SoundManager : MonoBehaviour
     // <summary>
     // Play a music loop or a loop+intro combination.
     // </summary>
-    public void PlayMusic(AudioClip musicLoop, AudioClip musicIntro = null, float volume = 1f, bool fadeout = true)
+    public void PlayMusic(AudioClip musicLoop, AudioClip musicIntro = null, float volume = 1f, bool fadeout = true, float delay = 2f, bool fadein = true)
     {
-        // TODO: implement this properly
-        // TODO: layer switching
 
         if (fadeout)
         {
-            // TODO: fade in / out
+            StartCoroutine(AudioFade.FadeOut(musicSource, delay, Mathf.SmoothStep));
+            StartCoroutine(AudioFade.FadeOut(musicSourceSecondary, delay, Mathf.SmoothStep));
+        }
+        else
+        {
+            musicSource.Stop();
+            musicSourceSecondary.Stop();
         }
 
-        musicSource.Stop();
-        musicSourceSecondary.Stop();
+        StartCoroutine(PlayAfterDelay(musicLoop, musicIntro, thisdelay: delay, fadein: fadein));
+    }
+
+    private IEnumerator PlayAfterDelay(AudioClip musicLoop, AudioClip musicIntro, float thisdelay = .8f, bool fadein = true)
+    {
+        yield return new WaitForSeconds(thisdelay);
 
         if (musicIntro == null)
         {
             musicSource.clip = musicLoop;
             musicSource.loop = true;
+            musicSource.volume = .5f;
 
             musicSourceSecondary.clip = null;
 
             if (musicLoop != null)
                 musicSource.Play();
-            return;
         }
-
-        if (musicLoop == null)
+        else
         {
-            Debug.LogError("Provided an intro but not a loop.");
-            return;
+
+            // Play out the intro if provided, schedule loop to play
+            musicSource.clip = musicIntro;
+            musicSource.loop = false;
+            musicSource.volume = .5f;
+
+            musicSourceSecondary.clip = musicLoop;
+            musicSourceSecondary.loop = true;
+            musicSourceSecondary.volume = .5f;
+
+            // precise calculation because clip.length lies to you
+            double duration = (double)musicIntro.samples / musicIntro.frequency;
+
+            // HACK: delay to make sure the option that is literally SUPPOSED to play things SEAMLESSLY
+            // has time to LOAD and COMPRESS the file before playing it so that it doesn't cause a GAP
+            // because APPARENTLY it doesn't do it in advance.
+            // what the fuck unity.
+            double delay = 0.5d;
+
+            musicSource.PlayScheduled(AudioSettings.dspTime + delay);
+            musicSourceSecondary.PlayScheduled(AudioSettings.dspTime + duration + delay);
         }
 
-        // Play out the intro if provided, schedule loop to play
-        musicSource.clip = musicIntro;
-        musicSource.loop = false;
-
-        musicSourceSecondary.clip = musicLoop;
-        musicSourceSecondary.loop = true;
-
-        // precise calculation because clip.length lies to you
-        double duration = (double)musicIntro.samples / musicIntro.frequency;
-
-        // HACK: delay to make sure the option that is literally SUPPOSED to play things SEAMLESSLY
-        // has time to LOAD and COMPRESS the file before playing it so that it doesn't cause a GAP
-        // because APPARENTLY it doesn't do it in advance.
-        // what the fuck unity.
-        double delay = 0.5d;
-
-        musicSource.PlayScheduled(AudioSettings.dspTime + delay);
-        musicSourceSecondary.PlayScheduled(AudioSettings.dspTime + duration + delay);
+        // if (fadein)
+        //     StartCoroutine(AudioFade.FadeIn(musicSource, 1f, Mathf.SmoothStep));
     }
 
     // <summary>
@@ -219,4 +231,44 @@ public class SoundManager : MonoBehaviour
     // Get mixer volume for a given group in 0.0~1.0 float.
     // </summary>
     public float GetGroupVolumeNormalized(AudioMixer.Groups group) => normalizedVolumeValues[group];
+}
+
+// Shamelessly stolen
+public class AudioFade
+{
+    public static IEnumerator FadeOut(AudioSource source, float fadingTime, Func<float, float, float, float> Interpolate)
+    {
+        float startVolume = source.volume;
+        float frameCount = fadingTime / Time.deltaTime;
+        float framesPassed = 0;
+
+        while (framesPassed <= frameCount)
+        {
+            var t = framesPassed++ / frameCount;
+            source.volume = Interpolate(startVolume, 0, t);
+            yield return null;
+        }
+
+        source.volume = 0.01f;
+        source.Stop();
+    }
+
+    public static IEnumerator FadeIn(AudioSource source, float fadingTime, Func<float, float, float, float> Interpolate)
+    {
+        source.volume = 0.1f;
+
+        float resultVolume = 0.5f;
+        float frameCount = fadingTime / Time.deltaTime;
+        float framesPassed = 0;
+
+        while (framesPassed <= frameCount)
+        {
+            var t = framesPassed++ / frameCount;
+            source.volume = Interpolate(0, resultVolume, t);
+            Debug.Log(source.volume);
+            yield return null;
+        }
+
+        source.volume = resultVolume;
+    }
 }

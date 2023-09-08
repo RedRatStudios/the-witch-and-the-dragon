@@ -35,6 +35,13 @@ public class AngerManager : MonoBehaviour
     {
         AlchemyManager.OnIngredientsCombinedResultingMessage += message =>
             IncreaseAnger(message.annoying);
+
+        SceneMoodManager.Instance.OnMoodUpdate += mood =>
+        {
+            Anger = 0f;
+            OnAngerChange?.Invoke(Anger);
+        };
+
     }
 
     private void Update()
