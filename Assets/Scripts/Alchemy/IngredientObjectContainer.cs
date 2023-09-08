@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class IngredientObjectContainer : MonoBehaviour
 {
@@ -19,9 +22,10 @@ public class IngredientObjectContainer : MonoBehaviour
     private void Start()
     {
         objectTemplate.SetActive(false);
+
     }
 
-    public void GenerateNewIngredientObjects(int number = 4)
+    public void GenerateNewIngredientObjects(UnityEngine.Object[] iconArray, UnityEngine.Object[] listArray, int number = 4)
     {
         // clean up
         foreach (var gameObject in allObjects)
@@ -36,8 +40,8 @@ public class IngredientObjectContainer : MonoBehaviour
 
             GameObject ingredientObject = Instantiate(objectTemplate, transform);
 
-            // TODO: set UI values when UI is done
-            ingredientObject.GetComponentInChildren<TextMeshProUGUI>().text = $"Add {ingredient.ingredientName}";
+            // Find the sprite that matches the random ingredient
+            ingredientObject.GetComponentInChildren<Image>().sprite = Array.Find(iconArray, e => e.name == ingredient.ingredientName) as Sprite;
 
             ingredientObject.GetComponent<IngredientObject>().ingredient = ingredient;
             ingredientObject.SetActive(true);
