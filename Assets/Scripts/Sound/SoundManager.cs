@@ -45,6 +45,14 @@ public class SoundManager : MonoBehaviour
         AlchemyManager.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
         AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
         AlchemyManager.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
+
+        // too annoying
+        // MonocoinManager.OnMonocoinsChanged += () => PlaySoundEffect(audioRef.coin, volume: 0.08f);
+
+        BuyUpgradeButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
+        BuyUpgradeButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
+
+        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
     }
 
     // TODO: remove testing code

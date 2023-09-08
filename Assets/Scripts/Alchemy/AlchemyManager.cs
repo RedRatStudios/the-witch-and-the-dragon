@@ -16,6 +16,8 @@ public class AlchemyManager : MonoBehaviour
     public static event Action OnBadMessageSent;
     public static event Action OnOKMessageSent;
 
+    public static event Action OnCookingCooked;
+
     [SerializeField] private TextAsset ingredientsFile;
     [SerializeField] private TextAsset messageDataFile;
 
@@ -28,6 +30,10 @@ public class AlchemyManager : MonoBehaviour
     private string choiceOne;
     private string choiceTwo;
 
+    private bool cooking;
+    private float cookingTimer;
+    public float cookingTimerCeiling = 1.5f;
+
     private void Awake()
     {
         Instance = this;
@@ -37,7 +43,7 @@ public class AlchemyManager : MonoBehaviour
         messageDataDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(messageDataFile.text);
     }
 
-    void Start()
+    private void Start()
     {
         // TODO: remove testing code
         OnIngredientsCombined += result => { Debug.Log(result["message"]); };
@@ -46,6 +52,17 @@ public class AlchemyManager : MonoBehaviour
         OnIngredientsCombined += result => { Debug.Log($"topic: {result["topic"]}"); };
 
         buttonUI.PROTOTYPE_InitButtons();
+    }
+
+    private void Update()
+    {
+        if (!cooking) return;
+        cookingTimer += Time.deltaTime * PlayerStats.Instance.cookingTimeMultiplier;
+
+        if (cookingTimer < cookingTimerCeiling) return;
+        cookingTimer = 0f;
+        cooking = false;
+        CombineIngredients();
     }
 
     // <summary>
@@ -64,7 +81,7 @@ public class AlchemyManager : MonoBehaviour
         if (choiceTwo == null)
         {
             choiceTwo = ingredient;
-            CombineIngredients();
+            cooking = true;
             return;
         }
 
@@ -120,6 +137,16 @@ public class AlchemyManager : MonoBehaviour
         choiceTwo = null;
 
         var messageData = messageDataDict[outputResult];
+
+        if (PlayerStats.Instance.highlithedMessage)
+        {
+            PlayerStats.Instance.highlithedMessage = false;
+            Upgrade.Highlight.locked = false;
+
+            messageData["funny"] = (Convert.ToDouble(messageData["funny"]) * 10).ToString();
+            messageData["annoying"] = (Convert.ToDouble(messageData["annoying"]) * 10).ToString();
+        }
+
         OnIngredientsCombined?.Invoke(messageData);
 
         double funny = Convert.ToDouble(messageData["funny"]);
@@ -144,6 +171,7 @@ public class AlchemyManager : MonoBehaviour
         OnOKMessageSent?.Invoke();
     }
 
+    public float GetCookingProgress() => cookingTimer / cookingTimerCeiling;
 
     // <summary>
     // Get all available ingredients as a List<string>
