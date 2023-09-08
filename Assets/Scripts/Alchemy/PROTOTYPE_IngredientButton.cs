@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PROTOTYPE_IngredientButton : MonoBehaviour
 {
     // Stores ingredient name, and sends it to AlchemyManager on click
-    [SerializeField] public string ingredient;
+    [SerializeField] public Ingredient ingredient;
 
     void Start()
     {

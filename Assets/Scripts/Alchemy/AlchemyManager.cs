@@ -20,15 +20,18 @@ public class AlchemyManager : MonoBehaviour
 
     [SerializeField] private TextAsset ingredientsFile;
     [SerializeField] private TextAsset messageDataFile;
+    [SerializeField] private SpriteRef spriteRef;
 
     [SerializeField] private PROTOTYPE_ButtonUI buttonUI;
 
     private Dictionary<string, string[]> ingredientsDict;
     private Dictionary<string, Dictionary<string, string>> messageDataDict;
 
+    private List<Ingredient> allIngredients = new();
+
     // Potentially store these in a list if we want to combine more than two
-    private string choiceOne;
-    private string choiceTwo;
+    [SerializeField] private CauldronSlot slotOne;
+    [SerializeField] private CauldronSlot slotTwo;
 
     private bool cooking;
     private float cookingTimer;
@@ -45,6 +48,17 @@ public class AlchemyManager : MonoBehaviour
 
     private void Start()
     {
+        // Populate ingredient list
+        foreach (string str in ingredientsDict.Keys)
+        {
+            allIngredients.Add(new()
+            {
+                ingredientName = str,
+                messages = ingredientsDict[str],
+                sprite = spriteRef.dictionary[str],
+            });
+        }
+
         // TODO: remove testing code
         OnIngredientsCombined += result => { Debug.Log(result["message"]); };
         OnIngredientsCombined += result => { Debug.Log($"funny: {result["funny"]}"); };
@@ -55,6 +69,11 @@ public class AlchemyManager : MonoBehaviour
     }
 
     private void Update()
+    {
+        UpdateCooking();
+    }
+
+    private void UpdateCooking()
     {
         if (!cooking) return;
         cookingTimer += Time.deltaTime * PlayerStats.Instance.cookingTimeMultiplier;
@@ -69,29 +88,24 @@ public class AlchemyManager : MonoBehaviour
     // Adds ingredient to slot one or slot two. Currently also calls combine at the end,
     // but that could be done on demand instead.
     // </summary>
-    public void AddIngredient(string ingredient)
+    public void AddIngredient(Ingredient ingredient)
     {
-        if (choiceOne == null)
+        if (!slotOne.HasIngredient())
         {
-            choiceOne = ingredient;
+            slotOne.SetIngredient(ingredient);
             return;
         }
 
-        // sanity check
-        if (choiceTwo == null)
+        if (!slotTwo.HasIngredient())
         {
-            choiceTwo = ingredient;
+            slotTwo.SetIngredient(ingredient);
+
+            // This is where the cooking begins
             cooking = true;
             return;
         }
 
         Debug.LogError("Called AddIngredient() when both ingredient slots are filled but haven't yet been combined or cleaned.");
-    }
-
-    public void ClearIngredients()
-    {
-        choiceOne = null;
-        choiceTwo = null;
     }
 
     // <summary>
@@ -101,8 +115,8 @@ public class AlchemyManager : MonoBehaviour
     // </summary>
     public void CombineIngredients()
     {
-        string[] resultsOne = ingredientsDict[choiceOne];
-        string[] resultsTwo = ingredientsDict[choiceTwo];
+        string[] resultsOne = slotOne.Ingredient.messages;
+        string[] resultsTwo = slotTwo.Ingredient.messages;
         string outputResult;
 
         if (resultsOne == resultsTwo)
@@ -133,8 +147,8 @@ public class AlchemyManager : MonoBehaviour
         outputResult = finalResults[randomIndex];
 
     FinishCombining:
-        choiceOne = null;
-        choiceTwo = null;
+        slotOne.Clear();
+        slotTwo.Clear();
 
         var messageData = messageDataDict[outputResult];
 
@@ -176,15 +190,7 @@ public class AlchemyManager : MonoBehaviour
     // <summary>
     // Get all available ingredients as a List<string>
     // </summary>
-    public List<string> GetIngredients()
-    {
-        List<string> output = new();
-
-        foreach (string ingredient in ingredientsDict.Keys)
-        { output.Add(ingredient); }
-
-        return output;
-    }
+    public List<Ingredient> GetIngredients() => allIngredients;
 
     public Dictionary<string, Dictionary<string, string>> MessageDataDictionary => messageDataDict;
     public Dictionary<string, string[]> IngredientDictionary => ingredientsDict;
