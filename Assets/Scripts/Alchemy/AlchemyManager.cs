@@ -27,7 +27,7 @@ public class AlchemyManager : MonoBehaviour
     private Dictionary<string, string[]> ingredientsDict;
     private Dictionary<string, Dictionary<string, string>> messageDataDict;
 
-    private List<Ingredient> allIngredients = new();
+    private List<Ingredient> allIngredients;
 
     // Potentially store these in a list if we want to combine more than two
     [SerializeField] private CauldronSlot slotOne;
@@ -40,10 +40,14 @@ public class AlchemyManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        allIngredients = new();
+        CauldronSlot.AllActiveSlots.Add(slotOne);
+        CauldronSlot.AllActiveSlots.Add(slotTwo);
 
         // load dictionary data from jsons
         ingredientsDict = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(ingredientsFile.text);
         messageDataDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(messageDataFile.text);
+
     }
 
     private void Start()
@@ -51,7 +55,7 @@ public class AlchemyManager : MonoBehaviour
         // Populate ingredient list
         foreach (string str in ingredientsDict.Keys)
         {
-            allIngredients.Add(new()
+            allIngredients.Add(new Ingredient()
             {
                 ingredientName = str,
                 messages = ingredientsDict[str],
@@ -93,12 +97,14 @@ public class AlchemyManager : MonoBehaviour
         if (!slotOne.HasIngredient())
         {
             slotOne.SetIngredient(ingredient);
+            slotOne.SetSprite(ingredient.sprite);
             return;
         }
 
         if (!slotTwo.HasIngredient())
         {
             slotTwo.SetIngredient(ingredient);
+            slotTwo.SetSprite(ingredient.sprite);
 
             // This is where the cooking begins
             cooking = true;

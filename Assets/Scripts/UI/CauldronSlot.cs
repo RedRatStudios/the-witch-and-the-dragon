@@ -7,13 +7,17 @@ using UnityEngine.UI;
 
 public class CauldronSlot : MonoBehaviour
 {
+    public static List<CauldronSlot> AllActiveSlots = new();
+
     [SerializeField] private Sprite defaultSprite;
-    private Ingredient ingredient;
+    private Ingredient ingredient = null;
 
     public void SetIngredient(Ingredient ingredient)
     {
+        Debug.Log("setting");
         this.ingredient = ingredient;
         SetSprite(ingredient.sprite);
+        AllActiveSlots.Add(this);
     }
 
     public void SetSprite(Sprite sprite = null)
@@ -24,6 +28,10 @@ public class CauldronSlot : MonoBehaviour
     }
 
     public bool HasIngredient() => ingredient != null;
-    public void Clear() { ingredient = null; }
+    public void Clear()
+    {
+        ingredient = null;
+        SetSprite(null);
+    }
     public Ingredient Ingredient => ingredient;
 }

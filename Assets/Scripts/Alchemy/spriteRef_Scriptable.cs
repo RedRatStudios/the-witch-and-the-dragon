@@ -5,24 +5,27 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SpriteRef : ScriptableObject
 {
-    public static Sprite copium;
-    public static Sprite himikals;
-    public static Sprite ayaminium;
-    public static Sprite primabait;
-    public static Sprite folly;
-    public static Sprite horny;
-    public static Sprite heinz;
-    public static Sprite egg;
+    public Sprite copium;
+    public Sprite himikals;
+    public Sprite ayaminium;
+    public Sprite primabait;
+    public Sprite folly;
+    public Sprite horny;
+    public Sprite heinz;
+    public Sprite egg;
 
-    public Dictionary<string, Sprite> dictionary = new()
+    public Dictionary<string, Sprite> dictionary = new();
+    private void OnEnable()
     {
-       { "Distilled Copium", copium },
-       { "Unstable Himikals", himikals },
-       { "Ayaminium", ayaminium },
-       { "Primabait", primabait },
-       { "Witch's Folly", folly },
-       { "Horn of the Dog", horny },
-       { "Heinz", heinz },
-       { "Polished Egg", egg },
-    };
+        dictionary = new() {
+           { "Distilled Copium", copium },
+           { "Unstable Himikals", himikals },
+           { "Ayaminium", ayaminium },
+           { "Primabait", primabait },
+           { "Witch's Folly", folly },
+           { "Horn of the Dog", horny },
+           { "Heinz", heinz },
+           { "Polished Egg", egg },
+        };
+    }
 }

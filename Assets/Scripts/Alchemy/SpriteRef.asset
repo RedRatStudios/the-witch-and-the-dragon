@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148c3b9247dfdeca2acb1243034a2ea6, type: 3}
+  m_Name: SpriteRef
+  m_EditorClassIdentifier: 
+  copium: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  himikals: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  ayaminium: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  primabait: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  folly: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  horny: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  heinz: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
+  egg: {fileID: 21300000, guid: 0dee5af48a494489b8fa5e22c9e00de9, type: 3}
