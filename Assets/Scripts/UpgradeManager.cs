@@ -33,8 +33,12 @@ public class UpgradeManager : MonoBehaviour
         Upgrade.Echo.stackable = true;
         Upgrade.Echo.OnBought += () => OnBoughtEcho();
 
-        string[] plasmidsPerks = { "Instantly reduce Joe's anger.", "Very slightly decrease cost creep.", "Stackable" };
-        Upgrade.Plasmids = new(5000, "Plasmids",
+        string[] plasmidsPerks = { "Instantly reduce Joe's anger.",
+                                    "Slightly increase Monocoin payout",
+                                    "Very slightly decrease cost creep, forever.",
+                                    "Stackable."
+                                    };
+        Upgrade.Plasmids = new(3000, "Plasmids",
                     "Buy some plasmids for Joe to calm him down.", plasmidsPerks);
         Upgrade.Plasmids.stackable = true;
         Upgrade.Plasmids.OnBought += () => OnBoughtPlasmids();
@@ -55,7 +59,7 @@ public class UpgradeManager : MonoBehaviour
         Upgrade.Highlight.OnBought += () => OnBoughtHighlight();
 
         string[] undercourtPerks = { "Survive getting banned once" };
-        Upgrade.Undercourt = new(100000, "Undercourt's Favor",
+        Upgrade.Undercourt = new(200000, "Undercourt's Favor",
                     "Abuse the Judge's literary inadequacy to gain an edge.", undercourtPerks);
         Upgrade.Undercourt.OnBought += () => OnBoughtUndercourt();
 
@@ -102,7 +106,6 @@ public class UpgradeManager : MonoBehaviour
     {
         Upgrade.Marble.TimesBought = PlayerPrefs.GetInt("marblesBought", 0);
         Upgrade.RogueMod.TimesBought = PlayerPrefs.GetInt("rogueModsBought", 0);
-
     }
 
 
@@ -131,7 +134,6 @@ public class UpgradeManager : MonoBehaviour
         PlayerPrefs.Save();
 
         StartCoroutine(RogueModTimer(Upgrade.RogueMod.ActualCost));
-        Upgrade.RogueMod.ActualCost = (int)CalcStackablePrice(Upgrade.RogueMod.BaseCost, Upgrade.RogueMod.TimesBought, 1.2f);
     }
 
     private IEnumerator RogueModTimer(int price)
@@ -141,7 +143,7 @@ public class UpgradeManager : MonoBehaviour
         float chance = UnityEngine.Random.Range(0f, 1f);
         if (chance < .7)
         {
-            MonocoinManager.Instance.AddMonocoins(price * 2);
+            MonocoinManager.Instance.AddMonocoins(price * 2, true);
             OnRogueModSuccess?.Invoke();
         }
         else
@@ -157,7 +159,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnBoughtSub2()
     {
-        PlayerStats.Instance.monocoinMultplier *= 1.5f;
+        PlayerStats.Instance.monocoinMultplier *= 2f;
         Upgrade.Sub3.locked = false;
         Upgrade.Sub2.locked = true;
     }
@@ -178,14 +180,12 @@ public class UpgradeManager : MonoBehaviour
     private void OnBoughtHighlight()
     {
         PlayerStats.Instance.highlithedMessage = true;
-        Upgrade.Highlight.ActualCost = (int)CalcStackablePrice(Upgrade.Highlight.BaseCost, PlayerStats.Instance.highlightsBought);
 
         Upgrade.Highlight.locked = true;
     }
 
     private void OnBoughtReroll()
     {
-        Upgrade.Reroll.ActualCost = (int)CalcStackablePrice(Upgrade.Reroll.BaseCost, PlayerStats.Instance.rerollsBought);
 
         // Reroll upgrades
         throw new NotImplementedException();
@@ -193,32 +193,25 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnBoughtPlasmids()
     {
-        Upgrade.Plasmids.ActualCost = (int)CalcStackablePrice(Upgrade.Plasmids.BaseCost, PlayerStats.Instance.plasmidsBought);
-        PlayerStats.Instance.costCreep -= 0.002f;
+        float decreaseCreepBy = 0.001f;
+
+        PlayerStats.Instance.costCreep -= decreaseCreepBy;
         PlayerPrefs.SetFloat("costCreep", PlayerStats.Instance.costCreep);
+
+        float increaseMultBy = 0.1f;
+        PlayerStats.Instance.monocoinSmallMultiplier += increaseMultBy;
+
         PlayerPrefs.Save();
 
-        // Reduce anger
-        throw new NotImplementedException();
+        float decreaseAngerBy = 0.08f;
+        AngerManager.Instance.DecreaseAnger(decreaseAngerBy);
     }
 
     private void OnBoughtEcho()
     {
-        PlayerStats.Instance.echoesBought += 1;
-        Upgrade.Echo.ActualCost = (int)CalcStackablePrice(Upgrade.Echo.BaseCost, PlayerStats.Instance.echoesBought);
+        PlayerStats.Instance.AngerMultiplier += 0.01f;
     }
 
-    private float CalcStackablePrice(float baseCost, int stacks, float multplier = 0f)
-    {
-        if (multplier == 0)
-            multplier = PlayerStats.Instance.costCreep;
-
-        float newPrice = baseCost;
-        for (int i = 1; i <= stacks; i++)
-            newPrice *= multplier;
-
-        return newPrice;
-    }
 
     // ╭────────────────────────────────────────────────────────────────────╮
     // │ Public functions                                                   │
@@ -273,7 +266,26 @@ public class Upgrade
     public void Buy()
     {
         if (stackable) TimesBought++;
+        UpdatePrices();
         OnBought?.Invoke();
+    }
+
+    public void UpdatePrices()
+    {
+        foreach (var upgrade in Upgrade.AllUpgrades)
+            upgrade.ActualCost = (int)CalcStackablePrice(upgrade.BaseCost, upgrade.TimesBought);
+    }
+
+    private float CalcStackablePrice(float baseCost, int stacks, float multplier = 0f)
+    {
+        if (multplier == 0)
+            multplier = PlayerStats.Instance.costCreep;
+
+        float newPrice = baseCost;
+        for (int i = 1; i <= stacks; i++)
+            newPrice *= multplier;
+
+        return newPrice;
     }
 
     public static Upgrade Echo;

@@ -61,8 +61,8 @@
     },
     "sprinklers": {
         "message": "Sprinkler. The sixteenth piece of evidence. Lying hidden until 7:30am. The one they call the Ultimate Contradiction. Watch out for it.",
-        "funny": 0.8,
-        "annoying": 1.0,
+        "funny": 0.85,
+        "annoying": 0.9,
         "topic": "danganronpa"
     },
     "threeHouses": {

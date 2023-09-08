@@ -15,7 +15,7 @@ public class PROTOTYPE_ButtonUI : MonoBehaviour
 
     public void PROTOTYPE_InitButtons()
     {
-        foreach (Ingredient ingredient in AlchemyManager.Instance.GetIngredients())
+        foreach (Ingredient ingredient in AlchemyManager.Instance.AllIngredients)
         {
             GameObject button = Instantiate(buttonTemplate, transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = $"Add {ingredient.ingredientName}";

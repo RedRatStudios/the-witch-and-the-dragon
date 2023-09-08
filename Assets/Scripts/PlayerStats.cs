@@ -6,16 +6,23 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
 
-    public int echoesBought = 0;
-    public int plasmidsBought = 0;
-    public int rerollsBought = 0;
-    public int highlightsBought = 0;
+    public float cookingTimeMultiplier = 1f;
 
+
+    // The multiplier that grows with subs
+    public float monocoinMultplier = 1f;
+
+    // The multiplier that grows with plasmids
+    public float monocoinSmallMultiplier = 1f;
+
+    // Multiplier that grows with murbles
     public float marbleMultiplier;
+
+    // Amount to exponentially increase cost of upgrades by
     public float costCreep;
 
-    public float cookingTimeMultiplier = 1f;
-    public float monocoinMultplier = 2f;
+    // Multiplier that grows with echoes
+    public float AngerMultiplier = 1f;
 
     public bool surviveBan = false;
     public bool highlithedMessage = false;

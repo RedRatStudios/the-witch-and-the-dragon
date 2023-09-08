@@ -9,7 +9,7 @@ public class AlchemyManager : MonoBehaviour
 {
     public static AlchemyManager Instance;
 
-    public static event Action<Dictionary<string, string>> OnIngredientsCombined;
+    public static event Action<Message> OnIngredientsCombinedResultingMessage;
 
     public static event Action OnSpicyMessageSent;
     public static event Action OnFunnyMessageSent;
@@ -64,11 +64,10 @@ public class AlchemyManager : MonoBehaviour
         }
 
         // TODO: remove testing code
-        OnIngredientsCombined += result => { Debug.Log(result["message"]); };
-        OnIngredientsCombined += result => { Debug.Log($"funny: {result["funny"]}"); };
-        OnIngredientsCombined += result => { Debug.Log($"annoying: {result["annoying"]}"); };
-        OnIngredientsCombined += result => { Debug.Log($"topic: {result["topic"]}"); };
-
+        OnIngredientsCombinedResultingMessage += message => Debug.Log(
+            $"{message.content} \n {message.funny}\n"
+            + $"{message.annoying}\n {message.topic}"
+            );
         buttonUI.PROTOTYPE_InitButtons();
     }
 
@@ -89,7 +88,7 @@ public class AlchemyManager : MonoBehaviour
     }
 
     // <summary>
-    // Adds ingredient to slot one or slot two. Currently also calls combine at the end,
+    // Adds ingredient to slot one or slot two. Currently also starts cooking,
     // but that could be done on demand instead.
     // </summary>
     public void AddIngredient(Ingredient ingredient)
@@ -157,24 +156,24 @@ public class AlchemyManager : MonoBehaviour
         slotTwo.Clear();
 
         var messageData = messageDataDict[outputResult];
+        Message message = new(messageData["message"],
+                              messageData["topic"],
+                              (float)Convert.ToDouble(messageData["funny"]),
+                              (float)Convert.ToDouble(messageData["annoying"]));
 
         if (PlayerStats.Instance.highlithedMessage)
         {
             PlayerStats.Instance.highlithedMessage = false;
             Upgrade.Highlight.locked = false;
-
-            messageData["funny"] = (Convert.ToDouble(messageData["funny"]) * 10).ToString();
-            messageData["annoying"] = (Convert.ToDouble(messageData["annoying"]) * 10).ToString();
+            message.funny *= 6;
+            message.annoying *= 2;
         }
 
-        OnIngredientsCombined?.Invoke(messageData);
+        OnIngredientsCombinedResultingMessage?.Invoke(message);
 
-        double funny = Convert.ToDouble(messageData["funny"]);
-        double annoying = Convert.ToDouble(messageData["annoying"]);
-
-        if (funny >= .6)
+        if (message.funny >= .6)
         {
-            if (annoying >= funny - .25)
+            if (message.annoying >= message.funny - .25)
                 OnSpicyMessageSent?.Invoke();
             else
                 OnFunnyMessageSent?.Invoke();
@@ -182,7 +181,7 @@ public class AlchemyManager : MonoBehaviour
             return;
         }
 
-        if (annoying >= funny + .25)
+        if (message.annoying >= message.funny + .25)
         {
             OnBadMessageSent?.Invoke();
             return;
@@ -193,11 +192,23 @@ public class AlchemyManager : MonoBehaviour
 
     public float GetCookingProgress() => cookingTimer / cookingTimerCeiling;
 
-    // <summary>
-    // Get all available ingredients as a List<string>
-    // </summary>
-    public List<Ingredient> GetIngredients() => allIngredients;
-
+    public List<Ingredient> AllIngredients => allIngredients;
     public Dictionary<string, Dictionary<string, string>> MessageDataDictionary => messageDataDict;
     public Dictionary<string, string[]> IngredientDictionary => ingredientsDict;
+}
+
+public class Message
+{
+    public string content;
+    public string topic;
+    public float funny;
+    public float annoying;
+
+    public Message(string content, string topic, float funny, float annoying)
+    {
+        this.content = content;
+        this.topic = topic;
+        this.funny = funny;
+        this.annoying = annoying;
+    }
 }

@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
         AlchemyManager.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
         AlchemyManager.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
         AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
+        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.witchPositive);
         AlchemyManager.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
 
         // too annoying
@@ -53,6 +54,8 @@ public class SoundManager : MonoBehaviour
         BuyUpgradeButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
 
         UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
+        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.witchPositive);
+        UpgradeManager.OnRogueModFail += () => PlaySoundEffect(audioRef.witchNegative);
     }
 
     // TODO: remove testing code
@@ -60,7 +63,6 @@ public class SoundManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PlaySoundEffect(audioRef.messageCooked_Amazing);
             PlaySoundEffect(audioRef.loop_boil, true);
         }
 
@@ -68,7 +70,7 @@ public class SoundManager : MonoBehaviour
             PlayMusic(null);
 
         if (Input.GetKeyDown(KeyCode.U))
-            PlayMusic(musicRef.megalovaniaLoop, musicRef.megalovaniaIntro);
+            PlayMusic(musicRef.mainMenuLoop);
     }
 
     private void OnDestroy()
