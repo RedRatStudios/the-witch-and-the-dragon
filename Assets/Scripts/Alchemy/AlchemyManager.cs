@@ -11,10 +11,10 @@ public class AlchemyManager : MonoBehaviour
 
     public static event Action<Message> OnIngredientsCombinedResultingMessage;
 
-    public static event Action OnSpicyMessageSent;
-    public static event Action OnFunnyMessageSent;
-    public static event Action OnBadMessageSent;
-    public static event Action OnOKMessageSent;
+    public event Action OnSpicyMessageSent;
+    public event Action OnFunnyMessageSent;
+    public event Action OnBadMessageSent;
+    public event Action OnOKMessageSent;
 
     public static event Action OnCookingCooked;
 

@@ -28,6 +28,12 @@ public class MonocoinManager : MonoBehaviour
     {
         AlchemyManager.OnIngredientsCombinedResultingMessage += message =>
             AwardMonocoinsForCombine(message);
+
+        SceneMoodManager.Instance.OnMoodUpdate += mood =>
+            {
+                monocoinsAvailable = 0;
+                OnMonocoinsChanged?.Invoke();
+            };
     }
 
     private void Update()

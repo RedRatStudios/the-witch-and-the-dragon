@@ -48,10 +48,10 @@ public class BuyUpgradeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         Debug.LogError($"{this} has an invalid Upgrade title property");
 
     InstanceInitialized:
-        button.onClick.AddListener(() => UpgradeManager.BuyUpgrade(upgrade, out _));
+        button.onClick.AddListener(() => UpgradeManager.Instance.BuyUpgrade(upgrade, out _));
 
         UpdateVisuals();
-        UpgradeManager.OnAnyUpgradeBought += () => UpdateVisuals();
+        UpgradeManager.Instance.OnAnyUpgradeBought += () => UpdateVisuals();
     }
 
     public void UpdateVisuals()
