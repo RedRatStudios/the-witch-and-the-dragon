@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PROTOTYPE_ButtonUI : MonoBehaviour
 {
@@ -14,10 +15,10 @@ public class PROTOTYPE_ButtonUI : MonoBehaviour
 
     public void PROTOTYPE_InitButtons()
     {
-        foreach (string ingredient in AlchemyManager.Instance.GetIngredients())
+        foreach (Ingredient ingredient in AlchemyManager.Instance.GetIngredients())
         {
             GameObject button = Instantiate(buttonTemplate, transform);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = $"Add {ingredient}";
+            button.GetComponentInChildren<TextMeshProUGUI>().text = $"Add {ingredient.ingredientName}";
             button.GetComponent<PROTOTYPE_IngredientButton>().ingredient = ingredient;
             button.SetActive(true);
         }
