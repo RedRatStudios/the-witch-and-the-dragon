@@ -22,7 +22,7 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private TextAsset messageDataFile;
     [SerializeField] private SpriteRef spriteRef;
 
-    [SerializeField] private PROTOTYPE_ButtonUI buttonUI;
+    [SerializeField] private IngredientObjectContainer buttonUI;
 
     private Dictionary<string, string[]> ingredientsDict;
     private Dictionary<string, Dictionary<string, string>> messageDataDict;
@@ -63,12 +63,14 @@ public class AlchemyManager : MonoBehaviour
             });
         }
 
+        // Spawn initial hand
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects();
+
         // TODO: remove testing code
         OnIngredientsCombinedResultingMessage += message => Debug.Log(
             $"{message.content} \n {message.funny}\n"
             + $"{message.annoying}\n {message.topic}"
             );
-        buttonUI.PROTOTYPE_InitButtons();
     }
 
     private void Update()
@@ -154,6 +156,7 @@ public class AlchemyManager : MonoBehaviour
     FinishCombining:
         slotOne.Clear();
         slotTwo.Clear();
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects();
 
         var messageData = messageDataDict[outputResult];
         Message message = new(messageData["message"],

@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 242208659}
   - component: {fileID: 242208658}
   m_Layer: 5
-  m_Name: buttonTemplate
+  m_Name: ingredientTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,7 +1316,7 @@ GameObject:
   - component: {fileID: 2132205140}
   - component: {fileID: 2132205141}
   m_Layer: 5
-  m_Name: PROTOTYPE_ButtonHolder
+  m_Name: IngredientContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1380,7 +1380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41cc16569f382bef82aa57cd0e81e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTemplate: {fileID: 242208656}
+  objectTemplate: {fileID: 242208656}
 --- !u!1 &2144049147
 GameObject:
   m_ObjectHideFlags: 0
