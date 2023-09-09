@@ -104,6 +104,12 @@ public class AngerManager : MonoBehaviour
     {
         if (anger == angerLimit)
         {
+            if (PlayerStats.Instance.surviveBan)
+            {
+                PlayerStats.Instance.surviveBan = false;
+                return;
+            }
+
             OnMaxAnger?.Invoke();
             return;
         }
