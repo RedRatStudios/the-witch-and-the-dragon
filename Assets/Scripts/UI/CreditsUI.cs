@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search;
+using UnityEditor;
 using UnityEngine;
 
 public class CreditsUI : MonoBehaviour, IAmVeryLazy
