@@ -68,7 +68,7 @@ public class SoundManager : MonoBehaviour
     {
         // quick and dirty
         if (mood == SceneMoods.Default)
-            PlayMusic(musicRef.mainMenuLoop);
+            PlayMusic(musicRef.mainMenuLoop, volume: 0.8f);
         else if (mood == SceneMoods.Persona4)
             PlayMusic(musicRef.dreamComeTrueLoop, musicRef.dreamComeTrueIntro);
         else if (mood == SceneMoods.Undertale)
