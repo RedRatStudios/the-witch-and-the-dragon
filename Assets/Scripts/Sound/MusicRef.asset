@@ -15,5 +15,5 @@ MonoBehaviour:
   mainMenuLoop: {fileID: 8300000, guid: 97dfde0ba4ac0fb038ba64f0ded2eeb4, type: 3}
   megalovaniaIntro: {fileID: 8300000, guid: ffe981b44b79e933cabb9339f534f5d2, type: 3}
   megalovaniaLoop: {fileID: 8300000, guid: d6fcf32a9afcbd565aaf76b3d2305fce, type: 3}
-  dreamComeTrueIntro: {fileID: 8300000, guid: ffe981b44b79e933cabb9339f534f5d2, type: 3}
-  dreamComeTrueLoop: {fileID: 8300000, guid: d6fcf32a9afcbd565aaf76b3d2305fce, type: 3}
+  dreamComeTrueIntro: {fileID: 8300000, guid: f3901186e40bfcc30b7de63848c1f846, type: 3}
+  dreamComeTrueLoop: {fileID: 8300000, guid: bd9b73483d42b35c39abf10386be86c2, type: 3}
