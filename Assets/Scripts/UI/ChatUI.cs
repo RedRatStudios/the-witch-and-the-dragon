@@ -38,7 +38,7 @@ public class ChatUI : MonoBehaviour
     [SerializeField] private int maxEmotesInMessage = 4;
     [SerializeField] private float sameEmoteSpamChance = .7f;
 
-    [SerializeField] private int maxMessagesOnScreen = 13;
+    [SerializeField] private int maxMessagesOnScreen = 12;
 
     private List<GameObject> messageGameObjects;
 
@@ -68,6 +68,11 @@ public class ChatUI : MonoBehaviour
 
         TextAsset chatUsersTextFile = Resources.Load<TextAsset>("chat_names");
         chatUsers = JsonConvert.DeserializeObject<ChatUser[]>(chatUsersTextFile.text);
+
+        AlchemyManager.Instance.OnFunnyMessageSent += () => ActivateBurst(MessageType.Good);
+        AlchemyManager.Instance.OnSpicyMessageSent += () => ActivateBurst(MessageType.Good);
+        AlchemyManager.Instance.OnOKMessageSent += () => ActivateBurst(MessageType.Any);
+        AlchemyManager.Instance.OnBadMessageSent += () => ActivateBurst(MessageType.Bad);
     }
 
     private void Update()
