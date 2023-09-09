@@ -13,10 +13,11 @@ public class MonitorManager : MonoBehaviour
     void Start()
     {
         vidplayer = gameObject.GetComponent<VideoPlayer>();
-        SceneMoodManager.Instance.OnMoodUpdate += mood => UpdateVideo(mood);
+        SceneMoodManager.OnMoodUpdate += mood => UpdateVideo(mood);
     }
 
-    private void UpdateVideo(SceneMoods mood){    
+    private void UpdateVideo(SceneMoods mood)
+    {
         // fuck you im stealing your entire function
         // how's that for a "quick and dirty"
         if (mood == SceneMoods.Default)

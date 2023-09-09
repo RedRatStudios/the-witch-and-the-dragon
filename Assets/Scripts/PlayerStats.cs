@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class PlayerStats : MonoBehaviour
     // Amount to exponentially increase cost of upgrades by
     public float costCreep;
 
+    public int timesBanned;
+
     // Multiplier that grows with echoes
     public float AngerMultiplier = 1f;
 
@@ -35,11 +38,28 @@ public class PlayerStats : MonoBehaviour
 
         marbleMultiplier = PlayerPrefs.GetFloat("marbleMultiplier", 1f);
         costCreep = PlayerPrefs.GetFloat("costCreep", 1.3f);
+        timesBanned = PlayerPrefs.GetInt("timesBanned", 0);
     }
 
     private void Start()
     {
         // TODO: display at the end
         timePlaying += Time.deltaTime;
+
+        AngerManager.OnMaxAnger += () =>
+        {
+            timesBanned++;
+            PlayerPrefs.SetInt("timesBanned", timesBanned);
+            PlayerPrefs.Save();
+        };
+
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenuScene");
+            SceneMoodManager.Instance.ChangeMood(SceneMoods.Default);
+        }
     }
 }
