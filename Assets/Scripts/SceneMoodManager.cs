@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -47,7 +48,13 @@ public class SceneMoodManager : MonoBehaviour
     IEnumerator SwitchAfterSec(float seconds = 5)
     {
         yield return new WaitForSeconds(seconds);
-        ChangeMood(RandomEnumValue<SceneMoods>());
+
+    Retry:
+        SceneMoods newMood = RandomEnumValue<SceneMoods>();
+        if (newMood == mood)
+            goto Retry;
+
+        ChangeMood(newMood);
     }
 
     public void ChangeMood(SceneMoods mood)
