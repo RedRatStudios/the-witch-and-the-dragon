@@ -123,9 +123,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnBoughtAbsolution()
     {
-
-        // play win animation
-        throw new NotImplementedException();
+        WinUI.instance.FadeInThis();
     }
 
     private void OnBoughtRogue()
@@ -186,9 +184,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnBoughtReroll()
     {
-
-        // Reroll upgrades
-        throw new NotImplementedException();
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects();
     }
 
     private void OnBoughtPlasmids()
@@ -259,7 +255,7 @@ public class Upgrade
         Name = name;
         Description = description;
         PerkDescriptions = perks;
-    
+
         AllUpgrades.Add(this);
     }
 

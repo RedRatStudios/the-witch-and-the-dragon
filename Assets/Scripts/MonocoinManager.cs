@@ -49,6 +49,10 @@ public class MonocoinManager : MonoBehaviour
     private void Update()
     {
         AddCoinsFromEcho();
+
+        // winky face
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+            AddMonocoins(100);
     }
 
     private void AddCoinsFromEcho()
