@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17970687, g: 0.21977806, b: 0.27630335, a: 1}
+  m_IndirectSpecularColor: {r: 0.17969865, g: 0.21976879, b: 0.27629694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1285,6 +1285,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WinUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298459501298715959, guid: 64b101ee85ba85fbb816d20328caa64a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5469241854115782157, guid: 64b101ee85ba85fbb816d20328caa64a,
         type: 3}
@@ -4441,12 +4446,12 @@ PrefabInstance:
     - target: {fileID: 3380945268048603600, guid: 6e1cacc9592ee646fb76eb870b570557,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 850
+      value: 971
       objectReference: {fileID: 0}
     - target: {fileID: 3380945268048603600, guid: 6e1cacc9592ee646fb76eb870b570557,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -400
+      value: -803
       objectReference: {fileID: 0}
     - target: {fileID: 3380945268048603600, guid: 6e1cacc9592ee646fb76eb870b570557,
         type: 3}

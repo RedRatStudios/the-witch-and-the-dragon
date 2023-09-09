@@ -51,7 +51,12 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
             return;
         }
 
-        AlchemyManager.Instance.AddIngredient(ingredient);
+        if(!AlchemyManager.Instance.AddIngredient(ingredient)){
+            transform.position = originalpos;
+            image.sprite = ingredient.spriteList;
+            return;
+        }
+
         image.enabled = false;
     }
 }
