@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18029127, g: 0.22572401, b: 0.3069303, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -421,8 +421,9 @@ GameObject:
   - component: {fileID: 206664991}
   - component: {fileID: 206664990}
   - component: {fileID: 206664989}
+  - component: {fileID: 206664992}
   m_Layer: 5
-  m_Name: Button
+  m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,17 +436,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 206664987}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1861037551}
-  m_Father: {fileID: 318872292}
+  m_Father: {fileID: 1959468086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -484}
+  m_AnchoredPosition: {x: 835.80005, y: -459.8}
   m_SizeDelta: {x: 158.94, y: 56.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &206664989
@@ -491,20 +492,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 206664990}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8585813816894039779, guid: f7116e7e088ad5102b46777cc7f4d34f,
-          type: 3}
-        m_TargetAssemblyTypeName: ShopUI, Assembly-CSharp
-        m_MethodName: Toggle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &206664990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +531,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 206664987}
   m_CullTransparentMesh: 1
+--- !u!114 &206664992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206664987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409d7a92c07fbf4b38bbdc20b4e374ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &318872291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -809,11 +809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 943771036355994251, guid: e29e687c6aee1d113aedc2d263f7b444,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 206664988}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e29e687c6aee1d113aedc2d263f7b444, type: 3}
 --- !u!224 &318872292 stripped
@@ -2097,9 +2093,10 @@ RectTransform:
   - {fileID: 876535443}
   - {fileID: 318872292}
   - {fileID: 760687116}
-  - {fileID: 8325497400034651328}
   - {fileID: 4198989376745655713}
+  - {fileID: 8325497400034651328}
   - {fileID: 1400576545}
+  - {fileID: 206664988}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
