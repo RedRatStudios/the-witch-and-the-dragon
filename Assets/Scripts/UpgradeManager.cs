@@ -259,7 +259,7 @@ public class Upgrade
         Name = name;
         Description = description;
         PerkDescriptions = perks;
-
+    
         AllUpgrades.Add(this);
     }
 

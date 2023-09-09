@@ -27,8 +27,13 @@ public class SceneMoodManager : MonoBehaviour
         mood = SceneMoods.Default;
         AngerManager.OnMaxAnger += () => StartCoroutine(SwitchAfterSec());
 
-        if (Input.GetKeyDown(KeyCode.Q))
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)){
             ChangeMood(RandomEnumValue<SceneMoods>());
+        }
     }
 
     // HACK: don't talk to me.

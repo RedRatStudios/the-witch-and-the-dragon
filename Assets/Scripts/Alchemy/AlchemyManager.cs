@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using TMPro;
+using Random = UnityEngine.Random;
 
 
 // Handles storing and converting ingredients
@@ -25,11 +27,17 @@ public class AlchemyManager : MonoBehaviour
     [SerializeField] private TextAsset ingredientsFile;
     [SerializeField] private TextAsset messageDataFile;
     [SerializeField] private SpriteRef spriteRef;
+    // pinned chat message variables
+    [SerializeField] private TextMeshProUGUI pinModName;
+    [SerializeField] private TextMeshProUGUI pinWitchName;
+    [SerializeField] private TextMeshProUGUI pinMessage;
+    [SerializeField] private TextAsset modFile;
 
     [SerializeField] private IngredientObjectContainer buttonUI;
 
     private Dictionary<string, string[]> ingredientsDict;
     private Dictionary<string, Dictionary<string, string>> messageDataDict;
+    private List<string> modList;
 
     private List<Ingredient> allIngredients;
 
@@ -41,17 +49,25 @@ public class AlchemyManager : MonoBehaviour
     private float cookingTimer;
     public float cookingTimerCeiling = 1.5f;
 
+    private string witchName;
+
+    private int deathCount;
+
     private void Awake()
     {
         Instance = this;
         allIngredients = new();
         CauldronSlot.AllActiveSlots.Add(slotOne);
         CauldronSlot.AllActiveSlots.Add(slotTwo);
+        
+        // todo: keep track of deaths and append deathcount number at the end of the name
+        witchName = "xXWitch69Xx";
+        deathCount = 0;
 
         // load dictionary data from jsons
         ingredientsDict = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(ingredientsFile.text);
         messageDataDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(messageDataFile.text);
-
+        modList = JsonConvert.DeserializeObject<List<string>>(modFile.text);
         // Load component sprites
         ingredientsIconImg = Resources.LoadAll("Ingredients/Icon", typeof(Sprite));
         ingredientsListImg = Resources.LoadAll("Ingredients/Listing", typeof(Sprite));
@@ -184,7 +200,7 @@ public class AlchemyManager : MonoBehaviour
         }
 
         OnIngredientsCombinedResultingMessage?.Invoke(message);
-
+        ManageChatPopup(message);
         if (message.funny >= .6)
         {
             if (message.annoying >= message.funny - .25)
@@ -202,6 +218,16 @@ public class AlchemyManager : MonoBehaviour
         }
 
         OnOKMessageSent?.Invoke();
+    }
+
+    public void ManageChatPopup(Message message)
+    {
+        int randomIndex = Random.Range(0,modList.Count);
+        string mod = modList[randomIndex];
+        pinModName.text = mod+" <color=white>pinned this message";
+        pinWitchName.text = "<color=#7900FF>"+witchName+"<color=white>:";;
+        pinMessage.text = message.content;
+
     }
 
     public float GetCookingProgress() => cookingTimer / cookingTimerCeiling;
