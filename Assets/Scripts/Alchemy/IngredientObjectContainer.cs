@@ -25,7 +25,7 @@ public class IngredientObjectContainer : MonoBehaviour
 
     }
 
-    public void GenerateNewIngredientObjects(UnityEngine.Object[] iconArray, UnityEngine.Object[] listArray, int number = 4)
+    public void GenerateNewIngredientObjects(int number = 4)
     {
         // clean up
         foreach (var gameObject in allObjects)
@@ -41,7 +41,7 @@ public class IngredientObjectContainer : MonoBehaviour
             GameObject ingredientObject = Instantiate(objectTemplate, transform);
 
             // Find the sprite that matches the random ingredient
-            ingredientObject.GetComponentInChildren<Image>().sprite = Array.Find(iconArray, e => e.name == ingredient.ingredientName) as Sprite;
+            ingredientObject.GetComponentInChildren<Image>().sprite = ingredient.spriteList;
 
             ingredientObject.GetComponent<IngredientObject>().ingredient = ingredient;
             ingredientObject.SetActive(true);

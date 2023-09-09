@@ -66,12 +66,14 @@ public class AlchemyManager : MonoBehaviour
             {
                 ingredientName = str,
                 messages = ingredientsDict[str],
-                sprite = spriteRef.dictionary[str],
+                spriteIcon = Array.Find(ingredientsIconImg, e => e.name == str) as Sprite,
+                spriteList = Array.Find(ingredientsListImg, e => e.name == str) as Sprite,
+
             });
         }
 
         // Spawn initial hand
-        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(ingredientsIconImg, ingredientsListImg);
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(4);
 
         // TODO: remove testing code
         OnIngredientsCombinedResultingMessage += message => Debug.Log(
@@ -107,14 +109,14 @@ public class AlchemyManager : MonoBehaviour
         if (!slotOne.HasIngredient())
         {
             slotOne.SetIngredient(ingredient);
-            slotOne.SetSprite(ingredient.sprite);
+            slotOne.SetSprite(ingredient.spriteIcon);
             return;
         }
 
         if (!slotTwo.HasIngredient())
         {
             slotTwo.SetIngredient(ingredient);
-            slotTwo.SetSprite(ingredient.sprite);
+            slotTwo.SetSprite(ingredient.spriteIcon);
 
             // This is where the cooking begins
             cooking = true;
@@ -165,7 +167,7 @@ public class AlchemyManager : MonoBehaviour
     FinishCombining:
         slotOne.Clear();
         slotTwo.Clear();
-        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(ingredientsIconImg, ingredientsListImg);
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(4);
 
         var messageData = messageDataDict[outputResult];
         Message message = new(messageData["message"],
