@@ -193,8 +193,8 @@ public class AlchemyManager : MonoBehaviour
         {
             PlayerStats.Instance.highlithedMessage = false;
             Upgrade.Highlight.locked = false;
-            message.funny *= 6;
-            message.annoying *= 2;
+            message.funny *= 2;
+            message.annoying *= 1.8f;
         }
 
         OnIngredientsCombinedResultingMessage?.Invoke(message);
