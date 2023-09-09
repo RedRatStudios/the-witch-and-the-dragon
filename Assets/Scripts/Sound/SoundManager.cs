@@ -68,7 +68,7 @@ public class SoundManager : MonoBehaviour
     {
         // quick and dirty
         if (mood == SceneMoods.Default)
-            PlayMusic(musicRef.mainMenuLoop);
+            PlayMusic(musicRef.mainMenuLoop, volume: 0.8f);
         else if (mood == SceneMoods.Persona4)
             PlayMusic(musicRef.dreamComeTrueLoop, musicRef.dreamComeTrueIntro);
         else if (mood == SceneMoods.Undertale)
@@ -151,7 +151,7 @@ public class SoundManager : MonoBehaviour
             musicSourceSecondary.Stop();
         }
 
-        StartCoroutine(PlayAfterDelay(musicLoop, musicIntro, thisdelay: delay, fadein: fadein));
+        StartCoroutine(PlayAfterDelay(musicLoop, musicIntro, thisdelay: delay + 0.1f, fadein: fadein));
     }
 
     private IEnumerator PlayAfterDelay(AudioClip musicLoop, AudioClip musicIntro, float thisdelay = .8f, bool fadein = true)
