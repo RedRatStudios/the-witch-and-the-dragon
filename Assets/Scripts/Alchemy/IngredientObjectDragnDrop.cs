@@ -9,6 +9,7 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     [SerializeField] public Ingredient ingredient;
     private Button button;
     private Image image;
+    private Vector3 originalpos;
     private TextMeshProUGUI textMesh;
     private CauldronSlot nearestSlot;
 
@@ -17,6 +18,7 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
         button = gameObject.GetComponent<Button>();
         image = gameObject.GetComponent<Image>();
         textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        originalpos = gameObject.transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -27,6 +29,7 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     public void OnBeginDrag(PointerEventData eventData)
     {
         nearestSlot = null;
+        image.sprite = ingredient.spriteIcon;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -45,7 +48,11 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 
         // if there was a slot near enough to the mouse,
         // put the appropiate ingredient in it.
-        if (nearestSlot == null) return;
+        if (nearestSlot == null) {
+            transform.position = originalpos;
+            image.sprite = ingredient.spriteList;
+            return;
+        }
 
         AlchemyManager.Instance.AddIngredient(ingredient);
         image.enabled = false;

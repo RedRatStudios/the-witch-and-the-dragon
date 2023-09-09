@@ -18,6 +18,10 @@ public class AlchemyManager : MonoBehaviour
 
     public static event Action OnCookingCooked;
 
+    private static UnityEngine.Object[] ingredientsListImg;
+    private static UnityEngine.Object[] ingredientsIconImg;
+
+
     [SerializeField] private TextAsset ingredientsFile;
     [SerializeField] private TextAsset messageDataFile;
     [SerializeField] private SpriteRef spriteRef;
@@ -48,6 +52,9 @@ public class AlchemyManager : MonoBehaviour
         ingredientsDict = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(ingredientsFile.text);
         messageDataDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(messageDataFile.text);
 
+        // Load component sprites
+        ingredientsIconImg =  Resources.LoadAll("Ingredients/Icon", typeof(Sprite));
+        ingredientsListImg = Resources.LoadAll("Ingredients/Listing", typeof(Sprite));
     }
 
     private void Start()
@@ -59,12 +66,14 @@ public class AlchemyManager : MonoBehaviour
             {
                 ingredientName = str,
                 messages = ingredientsDict[str],
-                sprite = spriteRef.dictionary[str],
+                spriteIcon = Array.Find(ingredientsIconImg, e => e.name == str) as Sprite,
+                spriteList = Array.Find(ingredientsListImg, e => e.name == str) as Sprite,
+
             });
         }
 
         // Spawn initial hand
-        IngredientObjectContainer.Instance.GenerateNewIngredientObjects();
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(4);
 
         // TODO: remove testing code
         OnIngredientsCombinedResultingMessage += message => Debug.Log(
@@ -72,6 +81,8 @@ public class AlchemyManager : MonoBehaviour
             + $"{message.annoying}\n {message.topic}"
             );
     }
+
+
 
     private void Update()
     {
@@ -98,14 +109,14 @@ public class AlchemyManager : MonoBehaviour
         if (!slotOne.HasIngredient())
         {
             slotOne.SetIngredient(ingredient);
-            slotOne.SetSprite(ingredient.sprite);
+            slotOne.SetSprite(ingredient.spriteIcon);
             return;
         }
 
         if (!slotTwo.HasIngredient())
         {
             slotTwo.SetIngredient(ingredient);
-            slotTwo.SetSprite(ingredient.sprite);
+            slotTwo.SetSprite(ingredient.spriteIcon);
 
             // This is where the cooking begins
             cooking = true;
@@ -156,7 +167,7 @@ public class AlchemyManager : MonoBehaviour
     FinishCombining:
         slotOne.Clear();
         slotTwo.Clear();
-        IngredientObjectContainer.Instance.GenerateNewIngredientObjects();
+        IngredientObjectContainer.Instance.GenerateNewIngredientObjects(4);
 
         var messageData = messageDataDict[outputResult];
         Message message = new(messageData["message"],

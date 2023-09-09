@@ -15,7 +15,7 @@ public class CauldronSlot : MonoBehaviour
     public void SetIngredient(Ingredient ingredient)
     {
         this.ingredient = ingredient;
-        SetSprite(ingredient.sprite);
+        SetSprite(ingredient.spriteIcon);
         AllActiveSlots.Add(this);
     }
 
