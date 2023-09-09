@@ -17,7 +17,12 @@ public class BanUI : MonoBehaviour
         banImage.gameObject.SetActive(false);
         background.gameObject.SetActive(false);
 
-        AngerManager.Instance.OnMaxAnger += FadeInThis;
+        AngerManager.OnMaxAnger += FadeInThis;
+    }
+
+    private void OnDestroy()
+    {
+        AngerManager.OnMaxAnger -= FadeInThis;
     }
 
     private void FadeInThis()

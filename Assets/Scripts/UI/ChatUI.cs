@@ -69,10 +69,19 @@ public class ChatUI : MonoBehaviour
         TextAsset chatUsersTextFile = Resources.Load<TextAsset>("chat_names");
         chatUsers = JsonConvert.DeserializeObject<ChatUser[]>(chatUsersTextFile.text);
 
-        AlchemyManager.Instance.OnFunnyMessageSent += () => ActivateBurst(MessageType.Good);
-        AlchemyManager.Instance.OnSpicyMessageSent += () => ActivateBurst(MessageType.Good);
-        AlchemyManager.Instance.OnOKMessageSent += () => ActivateBurst(MessageType.Any);
-        AlchemyManager.Instance.OnBadMessageSent += () => ActivateBurst(MessageType.Bad);
+        AlchemyManager.OnFunnyMessageSent += () => ActivateBurst(MessageType.Good);
+        AlchemyManager.OnSpicyMessageSent += () => ActivateBurst(MessageType.Good);
+        AlchemyManager.OnOKMessageSent += () => ActivateBurst(MessageType.Any);
+        AlchemyManager.OnBadMessageSent += () => ActivateBurst(MessageType.Bad);
+    }
+
+    private void OnDestroy()
+    {
+
+        AlchemyManager.OnFunnyMessageSent -= () => ActivateBurst(MessageType.Good);
+        AlchemyManager.OnSpicyMessageSent -= () => ActivateBurst(MessageType.Good);
+        AlchemyManager.OnOKMessageSent -= () => ActivateBurst(MessageType.Any);
+        AlchemyManager.OnBadMessageSent -= () => ActivateBurst(MessageType.Bad);
     }
 
     private void Update()

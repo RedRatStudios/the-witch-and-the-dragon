@@ -9,7 +9,7 @@ public class WitchEmotion : MonoBehaviour
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-        AngerManager.Instance.OnAngerChange += UpdateEmotion;
+        AngerManager.OnAngerChange += UpdateEmotion;
     }
 
     private void UpdateEmotion(float value)

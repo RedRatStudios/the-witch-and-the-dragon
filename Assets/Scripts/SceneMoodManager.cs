@@ -15,7 +15,7 @@ public class SceneMoodManager : MonoBehaviour
     public static SceneMoodManager Instance;
     public SceneMoods mood = new();
 
-    public event Action<SceneMoods> OnMoodUpdate;
+    public static event Action<SceneMoods> OnMoodUpdate;
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class SceneMoodManager : MonoBehaviour
     void Start()
     {
         mood = SceneMoods.Default;
-        AngerManager.Instance.OnMaxAnger += () => StartCoroutine(SwitchAfterSec());
+        AngerManager.OnMaxAnger += () => StartCoroutine(SwitchAfterSec());
 
     }
     

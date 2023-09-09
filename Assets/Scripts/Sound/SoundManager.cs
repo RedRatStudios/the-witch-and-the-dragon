@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this);
         LoopingAudioSources = new();
 
         // Load volume settings or set to defaults 
@@ -40,11 +42,11 @@ public class SoundManager : MonoBehaviour
         // subscribe to events here, use PlaySoundEffect().
         ChatUI.OnMessageSpawned += () => PlaySoundEffect(audioRef.chatTyping, volume: 0.2f);
 
-        AlchemyManager.Instance.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
-        AlchemyManager.Instance.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
-        AlchemyManager.Instance.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
-        AlchemyManager.Instance.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.witchPositive);
-        AlchemyManager.Instance.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
+        AlchemyManager.OnBadMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Bad);
+        AlchemyManager.OnOKMessageSent += () => PlaySoundEffect(audioRef.messageCooked_OK);
+        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Good);
+        AlchemyManager.OnFunnyMessageSent += () => PlaySoundEffect(audioRef.witchPositive);
+        AlchemyManager.OnSpicyMessageSent += () => PlaySoundEffect(audioRef.messageCooked_Amazing);
 
         // too annoying
         // MonocoinManager.OnMonocoinsChanged += () => PlaySoundEffect(audioRef.coin, volume: 0.08f);
@@ -52,16 +54,19 @@ public class SoundManager : MonoBehaviour
         BuyUpgradeButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
         BuyUpgradeButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
 
-        UpgradeManager.Instance.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
-        UpgradeManager.Instance.OnRogueModSuccess += () => PlaySoundEffect(audioRef.witchPositive);
-        UpgradeManager.Instance.OnRogueModFail += () => PlaySoundEffect(audioRef.witchNegative);
+        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.coin);
+        UpgradeManager.OnRogueModSuccess += () => PlaySoundEffect(audioRef.witchPositive);
+        UpgradeManager.OnRogueModFail += () => PlaySoundEffect(audioRef.witchNegative);
 
-        AngerManager.Instance.OnMaxAnger += () => PlaySoundEffect(audioRef.gettingBanned);
+        AngerManager.OnMaxAnger += () => PlaySoundEffect(audioRef.gettingBanned);
 
-        SceneMoodManager.Instance.OnMoodUpdate += mood => { ChooseMusic(mood); };
+        SceneMoodManager.OnMoodUpdate += mood => { ChooseMusic(mood); };
+        SceneManager.activeSceneChanged += (big, boobs) => PlaySoundEffect(audioRef.loop_boil, true, volume: .7f);
+
+        _MenuButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
+        _MenuButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
 
         PlayMusic(musicRef.mainMenuLoop, delay: 0f, fadeout: false, fadein: false);
-        PlaySoundEffect(audioRef.loop_boil, true, volume: .8f);
     }
 
     private void ChooseMusic(SceneMoods mood)

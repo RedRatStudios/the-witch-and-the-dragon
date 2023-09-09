@@ -7,11 +7,11 @@ public class AngerManager : MonoBehaviour
 {
     public static AngerManager Instance { get; private set; }
     public float Anger;
-    public event Action<float> OnAngerChange;
-    public event Action OnMaxAnger;
-    public event Action OnWithinFirstAngerThreshold;
-    public event Action OnWithinSecondAngerThreshold;
-    public event Action OnWithinThirdAngerThershold;
+    public static event Action<float> OnAngerChange;
+    public static event Action OnMaxAnger;
+    public static event Action OnWithinFirstAngerThreshold;
+    public static event Action OnWithinSecondAngerThreshold;
+    public static event Action OnWithinThirdAngerThershold;
 
     [SerializeField] private float globalAngerPowerscale = 2;
     [SerializeField] private float globalAngerMultiplier = 10;
@@ -35,7 +35,7 @@ public class AngerManager : MonoBehaviour
         AlchemyManager.OnIngredientsCombinedResultingMessage += message =>
             IncreaseAnger(message.annoying);
 
-        SceneMoodManager.Instance.OnMoodUpdate += mood =>
+        SceneMoodManager.OnMoodUpdate += mood =>
         {
             Anger = 0f;
             OnAngerChange?.Invoke(Anger);

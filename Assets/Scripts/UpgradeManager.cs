@@ -10,9 +10,9 @@ public class UpgradeManager : MonoBehaviour
 
     private float rogueModTimerCeiling = 30f;
 
-    public event Action OnRogueModSuccess;
-    public event Action OnRogueModFail;
-    public event Action OnAnyUpgradeBought;
+    public static event Action OnRogueModSuccess;
+    public static event Action OnRogueModFail;
+    public static event Action OnAnyUpgradeBought;
 
 
     private void Awake()
