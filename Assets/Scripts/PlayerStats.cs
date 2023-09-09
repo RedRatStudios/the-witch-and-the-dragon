@@ -59,7 +59,7 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("MainMenuScene");
-            SceneMoodManager.Instance.ChangeMood(SceneMoods.Default);
+            // SceneMoodManager.Instance.ChangeMood(SceneMoods.Default);
         }
     }
 }

@@ -30,7 +30,7 @@ public class IngredientObject : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        float shortestDistance = 70;
+        float shortestDistance = 80;
         foreach (var slot in CauldronSlot.AllActiveSlots)
         {
             float dist = Vector2.Distance(eventData.position, slot.transform.position);

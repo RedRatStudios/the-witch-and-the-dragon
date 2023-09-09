@@ -8,13 +8,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuyUpgradeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
+public class BuyUpgradeButton : _GameButton
 {
     public static List<BuyUpgradeButton> AllButtons = new();
-
-    public static event Action OnButtonPressed;
-    public static event Action OnButtonReleased;
-    public static event Action OnButtonHovered;
 
     public string upgradeTitle;
 
@@ -25,9 +21,7 @@ public class BuyUpgradeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     [SerializeField] protected TextMeshProUGUI countText;
     [SerializeField] protected GameObject lockedFadeImage;
 
-
     protected Upgrade upgrade;
-    protected Button button;
 
     private void Awake()
     {
@@ -86,31 +80,5 @@ public class BuyUpgradeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             lockedFadeImage.SetActive(true);
         else
             lockedFadeImage.SetActive(false);
-    }
-
-
-    /* ╭────────────────────────────────────────────────────────────────────╮
-       │     Interface implementation                                       │
-       ╰────────────────────────────────────────────────────────────────────╯ */
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (!button.interactable || upgrade.locked) return;
-
-        OnButtonPressed?.Invoke();
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (!button.interactable || upgrade.locked) return;
-
-        OnButtonReleased?.Invoke();
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (!button.interactable || upgrade.locked) return;
-
-        OnButtonHovered?.Invoke();
     }
 }

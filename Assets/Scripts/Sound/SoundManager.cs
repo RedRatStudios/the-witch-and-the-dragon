@@ -24,6 +24,12 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(this);
         LoopingAudioSources = new();
@@ -65,6 +71,9 @@ public class SoundManager : MonoBehaviour
 
         _MenuButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
         _MenuButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
+
+        _GameButton.OnButtonPressed += () => PlaySoundEffect(audioRef.buttonPress);
+        _GameButton.OnButtonReleased += () => PlaySoundEffect(audioRef.buttonRelease);
 
         PlayMusic(musicRef.mainMenuLoop, delay: 0f, fadeout: false, fadein: false);
     }
