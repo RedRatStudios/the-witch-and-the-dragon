@@ -8,19 +8,12 @@ using UnityEngine.UI;
 public class AngerUI : MonoBehaviour
 {
     [SerializeField] private Image meterImage;
-    [SerializeField] private TextMeshProUGUI titleText;
 
     private void Start()
     {
         meterImage.fillAmount = 0f;
-        titleText.text = "Joe's Anger";
 
         AngerManager.Instance.OnAngerChange += UpdateVisual;
-
-        // TODO: remove testing code
-        AngerManager.Instance.OnWithinFirstAngerThreshold += () => titleText.text = "Joe's Anger";
-        AngerManager.Instance.OnWithinSecondAngerThreshold += () => titleText.text = "One third full";
-        AngerManager.Instance.OnWithinThirdAngerThershold += () => titleText.text = "Two thirds full";
         AngerManager.Instance.OnMaxAnger += () => BanAnimation();
     }
 
