@@ -151,7 +151,7 @@ public class SoundManager : MonoBehaviour
             musicSourceSecondary.Stop();
         }
 
-        StartCoroutine(PlayAfterDelay(musicLoop, musicIntro, thisdelay: delay, fadein: fadein));
+        StartCoroutine(PlayAfterDelay(musicLoop, musicIntro, thisdelay: delay + 0.1f, fadein: fadein));
     }
 
     private IEnumerator PlayAfterDelay(AudioClip musicLoop, AudioClip musicIntro, float thisdelay = .8f, bool fadein = true)
