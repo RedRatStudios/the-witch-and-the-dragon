@@ -7,7 +7,6 @@ public class AngerManager : MonoBehaviour
 {
     public static AngerManager Instance { get; private set; }
     public float Anger;
-
     public event Action<float> OnAngerChange;
     public event Action OnMaxAnger;
     public event Action OnWithinFirstAngerThreshold;
