@@ -73,7 +73,7 @@ public class MonocoinManager : MonoBehaviour
 
         // Multiply by 10 so that square actually scales it up instead of down
         // Random multiplier on top of squared number
-        float amount = Mathf.Pow(message.funny * 10, 2) * randomMult;
+        float amount = Mathf.Pow(message.funny * 10, 1.35f) * randomMult;
         AddMonocoins(amount);
     }
 
