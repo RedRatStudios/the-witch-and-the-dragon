@@ -39,11 +39,6 @@ public class MonocoinManager : MonoBehaviour
     private void Update()
     {
         AddCoinsFromEcho();
-
-        // TODO: remove testing code
-        if (Input.GetKeyDown(KeyCode.A)) AddMonocoins(10);
-        // TODO: GUI button
-        if (Input.GetKeyDown(KeyCode.Escape)) ShopUI.Instance.Toggle();
     }
 
     private void AddCoinsFromEcho()

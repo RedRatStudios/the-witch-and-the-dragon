@@ -32,12 +32,24 @@ public class IngredientObjectContainer : MonoBehaviour
             Destroy(gameObject);
         allObjects.Clear();
 
+        // If it detected a repeated object before
+        bool repeated = false;
+        // Makes my life easier so i have to get the chidlren of objects stored
+        // at allObjects
+        List<int> alreadyPicked = new();
         // spawn
-        for (int i = 0; i < number; i++)
+        while(allObjects.Count < number)
         {
             int randomIndex = Random.Range(0, AlchemyManager.Instance.AllIngredients.Count);
-            Ingredient ingredient = AlchemyManager.Instance.AllIngredients[randomIndex];
 
+            if(alreadyPicked.Contains(randomIndex)) {
+                if (repeated) continue;
+                repeated = true;
+            } else {
+                alreadyPicked.Add(randomIndex);
+            }
+
+            Ingredient ingredient = AlchemyManager.Instance.AllIngredients[randomIndex];
             GameObject ingredientObject = Instantiate(objectTemplate, transform);
 
             // Find the sprite that matches the random ingredient
