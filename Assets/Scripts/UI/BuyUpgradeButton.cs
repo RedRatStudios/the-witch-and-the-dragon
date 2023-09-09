@@ -51,7 +51,13 @@ public class BuyUpgradeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         button.onClick.AddListener(() => UpgradeManager.Instance.BuyUpgrade(upgrade, out _));
 
         UpdateVisuals();
-        UpgradeManager.Instance.OnAnyUpgradeBought += () => UpdateVisuals();
+        UpgradeManager.OnAnyUpgradeBought += () => UpdateVisuals();
+    }
+
+    private void OnDestroy()
+    {
+        UpgradeManager.OnAnyUpgradeBought -= () => UpdateVisuals();
+
     }
 
     public void UpdateVisuals()

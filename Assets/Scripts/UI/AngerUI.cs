@@ -13,10 +13,16 @@ public class AngerUI : MonoBehaviour
     {
         meterImage.fillAmount = 0f;
 
-        AngerManager.Instance.OnAngerChange += UpdateVisual;
-        AngerManager.Instance.OnMaxAnger += () => BanAnimation();
+        AngerManager.OnAngerChange += UpdateVisual;
+        AngerManager.OnMaxAnger += () => BanAnimation();
     }
 
+    private void OnDestroy()
+    {
+        AngerManager.OnAngerChange -= UpdateVisual;
+        AngerManager.OnMaxAnger -= () => BanAnimation();
+
+    }
     private void BanAnimation()
     {
         //TODO: Show splash, lock UI

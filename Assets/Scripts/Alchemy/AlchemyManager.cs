@@ -11,10 +11,10 @@ public class AlchemyManager : MonoBehaviour
 
     public static event Action<Message> OnIngredientsCombinedResultingMessage;
 
-    public event Action OnSpicyMessageSent;
-    public event Action OnFunnyMessageSent;
-    public event Action OnBadMessageSent;
-    public event Action OnOKMessageSent;
+    public static event Action OnSpicyMessageSent;
+    public static event Action OnFunnyMessageSent;
+    public static event Action OnBadMessageSent;
+    public static event Action OnOKMessageSent;
 
     public static event Action OnCookingCooked;
 
@@ -53,7 +53,7 @@ public class AlchemyManager : MonoBehaviour
         messageDataDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(messageDataFile.text);
 
         // Load component sprites
-        ingredientsIconImg =  Resources.LoadAll("Ingredients/Icon", typeof(Sprite));
+        ingredientsIconImg = Resources.LoadAll("Ingredients/Icon", typeof(Sprite));
         ingredientsListImg = Resources.LoadAll("Ingredients/Listing", typeof(Sprite));
     }
 

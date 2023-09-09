@@ -1,0 +1,32 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class _MenuButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+{
+    public static event Action OnButtonPressed;
+    public static event Action OnButtonReleased;
+
+    protected IAmVeryLazy parent;
+    protected Button button;
+
+    private void Awake()
+    {
+        parent = GetComponentInParent<IAmVeryLazy>();
+        button = GetComponent<Button>();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnButtonPressed?.Invoke();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        OnButtonReleased?.Invoke();
+    }
+}
