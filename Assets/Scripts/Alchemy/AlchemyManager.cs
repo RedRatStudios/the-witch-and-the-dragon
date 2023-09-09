@@ -118,13 +118,13 @@ public class AlchemyManager : MonoBehaviour
     // Adds ingredient to slot one or slot two. Currently also starts cooking,
     // but that could be done on demand instead.
     // </summary>
-    public void AddIngredient(Ingredient ingredient)
+    public bool AddIngredient(Ingredient ingredient)
     {
         if (!slotOne.HasIngredient())
         {
             slotOne.SetIngredient(ingredient);
             slotOne.SetSprite(ingredient.spriteIcon);
-            return;
+            return true;
         }
 
         if (!slotTwo.HasIngredient())
@@ -134,10 +134,10 @@ public class AlchemyManager : MonoBehaviour
 
             // This is where the cooking begins
             cooking = true;
-            return;
+            return true;
         }
 
-        Debug.LogError("Called AddIngredient() when both ingredient slots are filled but haven't yet been combined or cleaned.");
+        return false;
     }
 
     // <summary>
