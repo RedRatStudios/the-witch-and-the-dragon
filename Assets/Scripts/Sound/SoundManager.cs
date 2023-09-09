@@ -20,10 +20,13 @@ public class SoundManager : MonoBehaviour
     private float volumeMultiplier = 30f;
 
     // storing normalized volume in a hashmap to prevent float innacuracy bullshit
-    private Dictionary<AudioMixer.Groups, float> normalizedVolumeValues = new();
+    private Dictionary<AudioMixer.Groups, float> normalizedVolumeValues;
 
     private void Awake()
     {
+
+        normalizedVolumeValues = new();
+
         if (Instance != null)
         {
             Destroy(this);
@@ -36,7 +39,10 @@ public class SoundManager : MonoBehaviour
 
         // Load volume settings or set to defaults 
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
+        {
+            Debug.Log(group.ToString());
             normalizedVolumeValues.Add(group, PlayerPrefs.GetFloat(group.ToString(), 1f));
+        }
     }
 
     private void Start()
@@ -45,6 +51,7 @@ public class SoundManager : MonoBehaviour
 
         foreach (AudioMixer.Groups group in Enum.GetValues(typeof(AudioMixer.Groups)))
             SetGroupVolume(normalizedVolumeValues[group], group);
+
         // subscribe to events here, use PlaySoundEffect().
         ChatUI.OnMessageSpawned += () => PlaySoundEffect(audioRef.chatTyping, volume: 0.2f);
 

@@ -19,6 +19,11 @@ public class CauldronSlot : MonoBehaviour
         AllActiveSlots.Add(this);
     }
 
+    void OnDestroy()
+    {
+        AllActiveSlots.Clear();
+    }
+
     public void SetSprite(Sprite sprite = null)
     {
         if (sprite == null)

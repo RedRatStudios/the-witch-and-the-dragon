@@ -51,6 +51,7 @@ public class BuyUpgradeButton : _GameButton
     private void OnDestroy()
     {
         UpgradeManager.OnAnyUpgradeBought -= () => UpdateVisuals();
+        AllButtons.Clear();
 
     }
 
