@@ -59,7 +59,7 @@ public class AlchemyManager : MonoBehaviour
         allIngredients = new();
         CauldronSlot.AllActiveSlots.Add(slotOne);
         CauldronSlot.AllActiveSlots.Add(slotTwo);
-        
+
         // todo: keep track of deaths and append deathcount number at the end of the name
         witchName = "xXWitch69Xx";
         deathCount = 0;
@@ -97,8 +97,6 @@ public class AlchemyManager : MonoBehaviour
             + $"{message.annoying}\n {message.topic}"
             );
     }
-
-
 
     private void Update()
     {
@@ -222,10 +220,10 @@ public class AlchemyManager : MonoBehaviour
 
     public void ManageChatPopup(Message message)
     {
-        int randomIndex = Random.Range(0,modList.Count);
+        int randomIndex = Random.Range(0, modList.Count);
         string mod = modList[randomIndex];
-        pinModName.text = mod+" <color=white>pinned this message";
-        pinWitchName.text = "<color=#7900FF>"+witchName+"<color=white>:";;
+        pinModName.text = mod + " <color=white>pinned this message";
+        pinWitchName.text = "<color=#7900FF>" + witchName + "<color=white>:"; ;
         pinMessage.text = message.content;
 
     }

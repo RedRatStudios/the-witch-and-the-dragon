@@ -7,9 +7,6 @@ public class ExitButton : _MenuButton
 {
     void Start()
     {
-        button.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
+        button.onClick.AddListener(() => Application.Quit());
     }
 }

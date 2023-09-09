@@ -4,13 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradeButton : MonoBehaviour
+public class UpgradeButton : _GameButton
 {
-    private Button button;
 
     private void Start()
     {
-        button = GetComponent<Button>();
         button.onClick.AddListener(() => ShopUI.Instance.Toggle());
     }
 }
